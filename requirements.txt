@@ -29,7 +29,7 @@ pycups==1.9.73
 
 PyJWT==1.7.1
 
-python-apt==1.6.5+ubuntu0.3
+
 python-dateutil==2.6.1
 python-debian==0.1.32
 python3-openid==3.2.0
