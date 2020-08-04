@@ -23,16 +23,16 @@ from rest_framework.response import Response
 def index(request):
     return render(request,'index.html')
 
-def indexo(r):
-    return 'L'
-    return Response(['Hello'])
+# def indexo(r):
+#     return 'L'
+#     return Response(['Hello'])
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
     path('api/', include('myapiapp.urls')),
-    path('apii/', indexo),
+   
     path('auth/',obtain_auth_token),
     path('', index)
 ]

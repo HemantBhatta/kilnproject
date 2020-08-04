@@ -7,23 +7,25 @@ from .serializers import WorkersListSerializer,KilnSerializer
 from django.forms.models import model_to_dict
 #import django.contrib.auth.decorators as all
 import rest_framework.permissions as isAuthenticated
-
+from django.views.decorators.csrf import csrf_protect
 from rest_framework import viewsets
 from django.contrib.auth.models import User
+from rest_framework.permissions import IsAuthenticated  
 from .serializers import UserSerializer
 
 # Create your views here.
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)     
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-@permission_classes(( isAuthenticated,))
+
 @api_view(['GET', 'POST'])
+# @permission_classes([IsAuthenticated])
 def workers_list(request):
     if request.method == 'GET':
-        return Response(dir(all))
         users = Workers.objects.values()
         kilns = Kiln.objects
         #return Response(users)

@@ -53,7 +53,7 @@ class Login extends React.Component {
 
   login = (e) => {
     e.preventDefault();
-
+      console.log(`${process.env.REACT_APP_BASE_URL}/auth/`);
       axios({
         method:'POST',
         headers: {

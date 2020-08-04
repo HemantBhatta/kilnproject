@@ -23,7 +23,10 @@ console.log(process.env.REACT_APP_BASE_URL);
 export default axios.create({
     baseURL:`${process.env.REACT_APP_BASE_URL}/api`,
     headers: {
-        'X-CSRFToken':csrftoken
+        'content-type':'application/json',
+        'X-CSRFToken':csrftoken,
+        Authorization:`Token 39597488e0c2e86f04639ea883dcfbd217ec9b29`,
+       
     }
 });
 
