@@ -17,11 +17,22 @@ from django.contrib import admin
 from django.urls import path,include
 
 from rest_framework.authtoken.views import obtain_auth_token
+from django.shortcuts import render
+from rest_framework.response import Response
+
+def index(request):
+    return render(request,'index.html')
+
+def indexo(r):
+    return 'L'
+    return Response(['Hello'])
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
     path('api/', include('myapiapp.urls')),
+    path('apii/', indexo),
     path('auth/',obtain_auth_token),
-   
+    path('', index)
 ]

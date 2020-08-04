@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import Workers,Kiln
 from .serializers import WorkersListSerializer,KilnSerializer
 from django.forms.models import model_to_dict
+#import django.contrib.auth.decorators as all
+import rest_framework.permissions as isAuthenticated
 
 from rest_framework import viewsets
 from django.contrib.auth.models import User
@@ -17,11 +19,11 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-
-
+@permission_classes(( isAuthenticated,))
 @api_view(['GET', 'POST'])
 def workers_list(request):
     if request.method == 'GET':
+        return Response(dir(all))
         users = Workers.objects.values()
         kilns = Kiln.objects
         #return Response(users)
@@ -43,7 +45,6 @@ def workers_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 @api_view(['GET', 'POST'])
 def kiln_list(request):
     if request.method == 'GET':
@@ -60,7 +61,6 @@ def kiln_list(request):
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def workers_detail(request,pk):
@@ -87,7 +87,6 @@ def workers_detail(request,pk):
     elif request.method == 'DELETE':
         worker.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -120,7 +119,3 @@ def kiln_detail(request,pk):
 
 
     
-
-
-def index(request):
-    return render(request,'index.html')

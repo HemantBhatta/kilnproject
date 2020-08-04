@@ -11,7 +11,7 @@ import KilnInfoInput from './components/KilnInfoInput'
 import KilnList from './components/KilnList'
 import EditWorkerCompRe from './components/EditWorkerCompRe'
 import ModalPayment from './components/ModalPayment'
-import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
+import {BrowserRouter as Router,Route,Switch, HashRouter} from 'react-router-dom'
 import Alert from '@material-ui/lab/Alert'
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
@@ -42,7 +42,7 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
+      <HashRouter>
       <Navbar/>
       {alert}
         <Switch>
@@ -58,7 +58,7 @@ function App() {
         </Switch>
         <ModalPayment/>
       
-      </Router>
+      </HashRouter>
     </div>
   );
 }

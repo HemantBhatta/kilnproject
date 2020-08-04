@@ -25,7 +25,7 @@ SECRET_KEY = '=v_#_05&um%em%k2593sr!mxxn1#$1w7vpv6*4g3_@fogp*nqb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['kilnappscli.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['kilnapps.herokuapp.com','127.0.0.1']
 
 
 # Application definition
@@ -77,6 +77,18 @@ TEMPLATES = [
         },
     },
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+       # 'rest_framework.authentication.BasicAuthentication',
+    ),
+}
 
 WSGI_APPLICATION = 'userapi.wsgi.application'
 CORS_ORIGIN_ALLOW_ALL = True
@@ -149,3 +161,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'userdetailtracer/build/static')
 ]
+
+LOGIN_REDIRECT_URL = '/api/workers'

@@ -1,6 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import axios from 'axios'
+import {csrftoken} from './Axiosapi'
 import {
   Grid,
   Container,
@@ -55,7 +56,10 @@ class Login extends React.Component {
 
       axios({
         method:'POST',
-        url : "http://127.0.0.1:8000/auth/",
+        headers: {
+          'X-CSRFToken':csrftoken
+      },
+        url : `${process.env.REACT_APP_BASE_URL}/auth/`,
         data:this.state
       })
       .then(res=>{

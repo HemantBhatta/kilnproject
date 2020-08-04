@@ -31,15 +31,13 @@ class ContextProvider extends Component {
   };
 
   componentDidMount() {
-    let csrftoken = this.getCookie('csrftoken')
-    console.log(csrftoken, 'Here')
-    this.hookState({csrftoken:csrftoken})
     this.fetchAllData();
   }
 
   fetchAllData = () => {
     Axiosapi.get('workers')
     .then(res=>{
+      console.log(res);
       this.hookState({ workersInfo: res.data, sortedWorkersInfo: res.data })
     }) 
     .catch((err) => console.log(err));
@@ -59,22 +57,7 @@ class ContextProvider extends Component {
   }
 
 
-  getCookie = (name) => {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    console.log(cookieValue)
-    return cookieValue;
-}
+
 
 
 
