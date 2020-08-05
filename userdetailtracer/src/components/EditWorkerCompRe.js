@@ -35,17 +35,19 @@ state={
 
    }
 
-  //  componentDidUpdate(prevProps,prevState){
-  //    if( prevState !== this.state.alertInfo){
-  //     this.context.AlertFunc(this.state.alertInfo);
-  //    }
-  //  }
+   componentDidUpdate(prevProps,prevState){
+    
+     if( prevState.alertInfo !== this.state.alertInfo){
+    
+      this.context.AlertFunc(this.state.alertInfo);
+     }
+   }
 
 
     InputHandler = (e) => {
     let name = e.target.name;
     let value = e.target.value;
-    console.log(name,value)
+  
     value = value.toUpperCase()
     const singleWorkerInfo = {...this.state.singleWorkerInfo, [name]: value}
     this.setState({singleWorkerInfo})
@@ -56,6 +58,8 @@ state={
     let name = e.target.name;
     let value = e.target.value;
     console.log(name,value)
+    const singleWorkerInfo = {...this.state.singleWorkerInfo, [name]: value}
+    this.setState({singleWorkerInfo})
   
     }
 
@@ -69,9 +73,10 @@ state={
             data:this.state.singleWorkerInfo
           })
           .then(res=>{
+          
             this.context.WorkerEditStatefunc(this.state.singleWorkerInfo);
-            if (res.status === 201 && res.statusText === "Created") {
-              this.setState({type: 'success', msg: 'Worker saved'})
+            if (res.status === 200 && res.statusText === "OK") {
+              this.setState({alertInfo:{type: 'success', msg: 'Worker Updated Successfully'}})
              }
             })
             .catch((err) => {
@@ -87,20 +92,16 @@ state={
 
     static contextType = myContext;
     render() {
-
-     const {kilnInfo,alertData,AlertFunc} =  this.context
+        console.log(this.state.singleWorkerInfo)
+     const {kilnInfo} =  this.context
      let kilnOption = kilnInfo.map((kiln)=>{
         return   <MenuItem value={kiln.id}>{kiln.name}</MenuItem>
-    })
-
-   
+    }) 
 
         return (
             <Container  maxWidth="sm" component="main">
             <div>
-              {/* <Typography component="h1" variant="h5">
-               Add Worker
-              </Typography> */}
+             
               <Title title='Update Worker'/>
               <form action="" onSubmit={this.SubmitHandler}>
                 <Grid container spacing={2}>
@@ -137,10 +138,7 @@ state={
                       }}
                     />
                   </Grid>
-      
-      
-      
-      
+        
                   <Grid item xs={12} sm={6}>
                     <TextField
                       variant="outlined"

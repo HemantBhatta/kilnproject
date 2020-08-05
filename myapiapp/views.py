@@ -23,7 +23,6 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 @api_view(['GET', 'POST'])
-# @permission_classes([IsAuthenticated])
 def workers_list(request):
     if request.method == 'GET':
         users = Workers.objects.values()

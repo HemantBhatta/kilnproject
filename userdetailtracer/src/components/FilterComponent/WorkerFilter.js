@@ -29,13 +29,12 @@ const WorkerFilter = () => {
     gender,
     searchbyworkername,
     ChangeOptionFilter,
-  
     searchbydistrict,
     searchbymunicipality,
     searchbyward,
     searchbyworkercategory,
     searchbynaikename,
-    searchbykilnname,
+  
   } = useContext(myContext);
 
   let kilnlist = workersInfo.map((kiln) => {
@@ -92,19 +91,6 @@ const WorkerFilter = () => {
             />
           </Grid>
 
-          {/* <Grid item xs={12} sm={6} md={4}>
-        <TextField
-        fullWidth
-          label="Search by country"
-          id="outlined-size-normal"
-          name="searchbycountry"
-          value={searchbycountry}
-          onChange={ChangeOptionFilter}
-          variant="outlined"
-          size="small"
-        />
- </Grid> */}
-
           <Grid item xs={12} sm={6} md={4}>
             <TextField
               fullWidth
@@ -144,19 +130,7 @@ const WorkerFilter = () => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4}>
-            <TextField
-              fullWidth
-              label="Search by kilnname"
-              id="outlined-size-normal"
-              name="searchbykilnname"
-              value={searchbykilnname}
-              onChange={ChangeOptionFilter}
-              variant="outlined"
-              // size="small"
-            />
-          </Grid>
-
+        
           <Grid item>
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel id="demo-simple-select-outlined-label">

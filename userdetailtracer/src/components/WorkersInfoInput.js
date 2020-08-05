@@ -24,21 +24,21 @@ const isAlreadyAuthenticated = isAuthenticated();
 
       const workers = {
        
-        f_name: "qwe",
-        l_name: "qweq",
-        naikename:'qweqe',
-        naikelastname:'ertert',
-        gender:'MALE',
-        age:123,
-        country:'nepal',
-        district:'adsa',
-        municipality:'asdad',
-        ward:'ad',
-        workercategory:'adsad',    
-        phone: 234234,
-        salary: 500,
-        kiln_id: 1,
-      };
+        f_name: '',
+        l_name: '',
+        naikename:'',
+        naikelastname:'',
+        gender:'',
+        age:'',        
+        country:'',
+        district:'',
+        municipality:'',
+        ward:'',
+        workercategory:'',    
+        phone:'',
+        salary:'',
+        kiln_id:'',     
+       };
 
   const [valuea, setValue] = useState(workers);
   const [workerInfoValue, setworkerInfoValue] = useState(workersInfo);
@@ -60,9 +60,9 @@ const isAlreadyAuthenticated = isAuthenticated();
     let name = e.target.name;
     let value = e.target.value;
     
-   
+    console.log(name,value)
     setValue((prevState) => {
-      console.log(prevState, name, value)
+    
       return { ...prevState, [name]: value };
     });
   }
@@ -98,7 +98,7 @@ const isAlreadyAuthenticated = isAuthenticated();
         setalertInfo({type: 'error', msg: 'Something went wrong. Please try again.'})
       })
 
-
+      setValue(workers)
   };
 
   return (

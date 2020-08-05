@@ -50,7 +50,7 @@ const WorkersList = () => {
 
   const { sortedWorkersInfo } = useContext(myContext);
   
-console.log(sortedWorkersInfo)
+
   let sortedworkersInfoComp = sortedWorkersInfo.map((worker) => {
     return <WorkersListMap worker={worker} key={worker.id}/>;
   });

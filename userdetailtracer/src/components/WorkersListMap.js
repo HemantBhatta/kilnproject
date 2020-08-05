@@ -50,9 +50,7 @@ const WorkersListMap = ({ worker }) => {
           <Typography className={classes.pos} variant="body1" component="p">
             Age: {worker.age}
           </Typography>
-          <Typography className={classes.pos} variant="body1" component="p">
-            Country: {worker.country}
-          </Typography>
+         
           <Typography className={classes.pos} variant="body1" component="p">
             District: {worker.district}
           </Typography>

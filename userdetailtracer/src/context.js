@@ -37,7 +37,7 @@ class ContextProvider extends Component {
   fetchAllData = () => {
     Axiosapi.get('workers')
     .then(res=>{
-      console.log(res);
+    
       this.hookState({ workersInfo: res.data, sortedWorkersInfo: res.data })
     }) 
     .catch((err) => console.log(err));
@@ -53,7 +53,7 @@ class ContextProvider extends Component {
 
   hookState = state => {
     this.setState(state);
-    console.log(state)
+  
   }
 
 
@@ -63,7 +63,6 @@ class ContextProvider extends Component {
 
 
   KilnNewStatefunc =(newState)=> {
-    console.log(newState)
           this.hookState({sortedkilnInfo:newState,kilnInfo:newState})
   }
 
@@ -83,8 +82,9 @@ class ContextProvider extends Component {
   ChangeOptionFilter = (e) => {
     let value = e.target.value;
     let name = e.target.name;
-    console.log(value, name);
-    this.hookState({ [name]: value }, () => {
+  
+  
+    this.setState({ [name]: value }, () => {
       this.filterAllOptions();
       this.filterKilnData();
     });
@@ -106,7 +106,6 @@ class ContextProvider extends Component {
     } = this.state;
 
     let tempWorkersInfo = [...workersInfo];
-
     if (kname !== "All") {
       tempWorkersInfo = tempWorkersInfo.filter((worker) => {
         return worker.kiln.name === kname;
@@ -190,11 +189,6 @@ class ContextProvider extends Component {
       });
     }
 
-    // if (searchbykilnowner !== null) {
-    //   tempkilnInfo = tempkilnInfo.filter((kiln) => {
-    //     return kiln.kilnowner.includes(searchbykilnowner.toUpperCase());
-    //   });
-    // }
 
     this.hookState({ sortedkilnInfo: tempkilnInfo });
   };
@@ -234,7 +228,7 @@ class ContextProvider extends Component {
         this.hookState({alertData:{type: 'success', msg: 'Worker deleted successfully'}})
         let filteredWorker = this.filterByIdworker(id)
         this.hookState({workersInfo:filteredWorker, sortedWorkersInfo:filteredWorker})
-        console.log('deleting ok finished')
+      
         }
       })
       .catch((err) => {
@@ -255,7 +249,7 @@ class ContextProvider extends Component {
         this.hookState({alertData:{type: 'success', msg: 'Kiln deleted successfully'}})
         let filteredKiln = this.filterByIdkiln(id)
         this.hookState({kilnInfo:filteredKiln, sortedkilnInfo:filteredKiln})
-        console.log('deleting ok finished')
+     
         }
       })
       .catch((err) => {
@@ -285,7 +279,7 @@ AlertFunc = (res) => {
 
 
   render() {
-  console.log(this.state.alertData)
+
     return (
       <myContext.Provider
         value={{

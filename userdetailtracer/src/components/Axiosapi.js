@@ -13,19 +13,18 @@ const getCookie = (name) => {
             }
         }
     }
-    console.log(cookieValue)
+   
     return cookieValue;
 };
 
 const csrftoken = getCookie('csrftoken');
-console.log(process.env.REACT_APP_BASE_URL);
 
 export default axios.create({
     baseURL:`${process.env.REACT_APP_BASE_URL}/api`,
     headers: {
         'content-type':'application/json',
         'X-CSRFToken':csrftoken,
-        Authorization:`Token 39597488e0c2e86f04639ea883dcfbd217ec9b29`,
+        Authorization:`Token ${JSON.parse(localStorage.getItem('item'))}`,
        
     }
 });

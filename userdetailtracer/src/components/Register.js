@@ -69,7 +69,7 @@ class Register extends React.Component {
  InputHandle = (e) => {
      let value = e.target.value;
      let name = e.target.name;
-     console.log(value,name)
+
      this.setState({
          [name]:value
      })

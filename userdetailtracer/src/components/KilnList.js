@@ -45,8 +45,8 @@ const KilnList = () =>  {
     const classes = useStyles()
     const isAlreadyAuthenticated = isAuthenticated();
 
-    const {sortedkilnInfo,kilnInfo} = useContext(myContext)
-   console.log(sortedkilnInfo,kilnInfo)
+    const {sortedkilnInfo} = useContext(myContext)
+  
 
 
     let kilnInfoComp = sortedkilnInfo.map(kiln=>{

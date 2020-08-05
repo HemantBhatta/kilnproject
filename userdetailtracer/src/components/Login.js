@@ -45,7 +45,7 @@ class Login extends React.Component {
   InputHandle = (e) => {
     let value = e.target.value;
     let name = e.target.name;
-    console.log(value, name);
+  
     this.setState((prevState)=>{
       return ({...prevState,[name]:value})
     });
@@ -53,7 +53,7 @@ class Login extends React.Component {
 
   login = (e) => {
     e.preventDefault();
-      console.log(`${process.env.REACT_APP_BASE_URL}/auth/`);
+    
       axios({
         method:'POST',
         headers: {

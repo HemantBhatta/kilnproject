@@ -43,7 +43,7 @@ const WorkersInfoInputComp = ({
 
 
   let kilnOption = kilnlist.map((kiln) => {
-    return <MenuItem value={kiln.id}>{kiln.name}</MenuItem>;
+    return <MenuItem key={kiln.id} value={kiln.id}>{kiln.name}</MenuItem>;
   });
 
   return (
@@ -267,24 +267,6 @@ const WorkersInfoInputComp = ({
                 </Select>
               </FormControl>
             </Grid>
-
-            {/* <FormControl className={classes.margin}>
-              <InputLabel htmlFor="demo-customized-select-native">
-               Gender
-              </InputLabel>
-              <NativeSelect
-               name="gender"
-                id="demo-customized-select-native"
-                value={valuea.gender}
-                onChange={InputHandler}
-                input={<useStyles />}
-              >
-                <option aria-label="None" value="" />
-                <option value="MALE">Male</option>
-                <option value="FEMALE">Female</option>
-                <option value="OTHERS">Others</option>
-              </NativeSelect>
-            </FormControl> */}
 
             <Grid item xs={12} sm={12}>
               <FormControl
