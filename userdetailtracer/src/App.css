@@ -1,6 +1,13 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*************** title component starts **********/
+
 .title {
   text-align: center;
-
   font-family: sans-serif;
 }
 
@@ -45,6 +52,9 @@ font-family: 'Roboto', sans-serif;
   }
 }
 
+/*************** title component starts **********/
+
+
 /* navbar starts *****************************/
 
 .nav {
@@ -67,7 +77,6 @@ font-family: 'Roboto', sans-serif;
 }
 
 .navRight .loginButton {
-/* display: block; */
   font-size: 1rem;
   color: white;
 }
@@ -79,7 +88,7 @@ font-family: 'Roboto', sans-serif;
 @media screen and (min-width: 900px) {
   .logoTitle {
     font-size: 1.7rem !important;
-    letter-spacing: 5px !important;
+    letter-spacing: 2px !important;
   }
 }
 
@@ -118,7 +127,6 @@ font-family: 'Roboto', sans-serif;
 }
 
 
-
 @media screen and (max-width: 900px) {
   .logoTitle {
     font-size: 1.5rem !important;
@@ -135,6 +143,11 @@ font-family: 'Roboto', sans-serif;
     font-size: 1.2rem !important;
   }
 
+/************** navbar ends ****************/
+
+
+ /*********** buttons addnewWorker and editWorkerBtn*/
+
   .addnewWorker {
     font-size: 1rem !important;
   }
@@ -145,15 +158,14 @@ font-family: 'Roboto', sans-serif;
 }
 
 
-
-
-
 .hide {
     display: flex;
     justify-content: flex-start;
     align-items: center;
   
 }
+
+/**************** logout section starts */
 
 
 .logoutSection
@@ -181,11 +193,11 @@ font-family: 'Roboto', sans-serif;
     padding:1.5rem;
     font-size: 1rem!important;
     
-
 }
 }
 
 
+/******************* Modal section starts */
 
 .showModal{
   display: block;
@@ -232,4 +244,69 @@ font-family: 'Roboto', sans-serif;
 }
 
 
+
+/************** user registerlinkbelowlogin */
+
+.registerLink
+{
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/******************* pagination starts */
+
+.paginateClass
+{
+  text-align: center;
+  margin: 50px auto;
+}
+
+
+.paginateInner
+{
+ display: inline-block;
+
+}
+
+.ngoSection
+{
+  max-width: 60vw;
+  margin: 0 auto;
+}
+
+.ngoInnerSection
+{
+  background-color: rgb(218, 216, 218);
+  box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.7);
+}
+
+.ngoNameList
+{
+  
+  text-align: center;
+  padding: 20px;
+  
+  font-family: 'Roboto',sans-serif;
+  font-size: 1.4rem;
+  max-width: 500px;
+  margin: 20px auto;
+  background-color: white;
+  box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+}
+
+/************* worker filter categoryinput */
+.categoryMargin
+{
+  margin-top: -7px!important;
+}
+
+
+/************* workerinfoinput starts******* */
+
+.workerInputSection
+{
+  padding-bottom: 50px;
+}
 

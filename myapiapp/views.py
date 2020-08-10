@@ -2,29 +2,41 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .models import Workers,Kiln
-from .serializers import WorkersListSerializer,KilnSerializer
+from .models import Workers,Kiln,ngos
+from .serializers import WorkersListSerializer,KilnSerializer,NgosSerializer
 from django.forms.models import model_to_dict
-#import django.contrib.auth.decorators as all
 import rest_framework.permissions as isAuthenticated
 from django.views.decorators.csrf import csrf_protect
 from rest_framework import viewsets
-from django.contrib.auth.models import User
-from rest_framework.permissions import IsAuthenticated  
+from .models import ExtendedUser
+from rest_framework.permissions import IsAuthenticated  ,AllowAny
 from .serializers import UserSerializer
+from rest_framework.exceptions import PermissionDenied
 
 # Create your views here.
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)     
-    queryset = User.objects.all()
+class UserViewSet(viewsets.ModelViewSet):   
+    queryset = ExtendedUser.objects.all()
     serializer_class = UserSerializer
 
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            self.permission_classes = (AllowAny,)
+
+        return super(UserViewSet, self).get_permissions()
+
+def permDenied():
+    return Response({'error': 'Permission denied'}, status=403)
+
+@api_view(['GET'])
+def user(request):
+    return Response(model_to_dict(request.user))
 
 @api_view(['GET', 'POST'])
 def workers_list(request):
     if request.method == 'GET':
+        #return Response(model_to_dict(request.user))
         users = Workers.objects.values()
         kilns = Kiln.objects
         #return Response(users)
@@ -32,10 +44,12 @@ def workers_list(request):
             if 'kiln_id' in u:
                 u['kiln'] = model_to_dict(kilns.get(id=u['kiln_id']))
         return Response(users)
-
+        
     elif request.method == 'POST':
+        if not request.user.is_superuser: return permDenied()
         request.data['kiln'] = request.data['kiln_id']
         del request.data['kiln_id']
+       
         serializer = WorkersListSerializer(data=request.data)
         #serializer.data.kiln = serializer.data.kiln_id
         #delattr(serializer.data, 'kiln_id')
@@ -55,7 +69,7 @@ def kiln_list(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        #return Response(request.data)
+        if not request.user.is_superuser: return permDenied()
         serializer = KilnSerializer(data=request.data)
         if serializer.is_valid():
            # return Response(serializer.data)
@@ -73,19 +87,28 @@ def workers_detail(request,pk):
 
 
     if request.method == 'GET':
-        serializer = WorkersListSerializer(worker)
-        return Response(serializer.data)
+        data = model_to_dict(worker)
+        data['kiln_id'] =  data['kiln']
+        del data['kiln']
+        return Response(data)
 
 
     elif request.method == 'PUT':
+        if not request.user.is_superuser: return permDenied()
+        request.data['kiln'] = request.data['kiln_id']
+        del request.data['kiln_id']
         serializer = WorkersListSerializer(worker,data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            data = dict(serializer.data)
+            data['kiln_id'] =  data['kiln']
+            del data['kiln']
+            return Response(data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
     elif request.method == 'DELETE':
+        if not request.user.is_superuser: return permDenied()
         worker.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -100,11 +123,17 @@ def kiln_detail(request,pk):
 
 
     if request.method == 'GET':
+        user = request.user
+        
         serializer = KilnSerializer(kiln)
         return Response(serializer.data)
 
 
+    
+
+
     elif request.method == 'PUT':
+        if not request.user.is_superuser: return permDenied()
         request.data['kiln'] = request.data['kiln_id']
         del request.data['kiln_id']
         serializer = KilnSerializer(kiln,data=request.data)
@@ -115,8 +144,18 @@ def kiln_detail(request,pk):
 
 
     elif request.method == 'DELETE':
+        if not request.user.is_superuser: return permDenied()
         kiln.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-    
+
+  
+@api_view(['GET'])
+def ngos_list(request):
+    if request.method == 'GET':
+        ngoss = ngos.objects.all()
+        serializer = NgosSerializer(ngoss,many=True)
+        return Response(serializer.data)
+
+

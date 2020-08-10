@@ -29,7 +29,7 @@ const KilnFilter = () => {
           <Grid item xs={12} sm={6} >
             <TextField
               fullWidth
-              label="Search by kilnname"
+              label="Search by Name"
               id="outlined-size-small"
               name="searchbykiln"
               value={searchbykiln}
@@ -42,7 +42,7 @@ const KilnFilter = () => {
           <Grid item xs={12} sm={6} >
             <TextField
               fullWidth
-              label="Search by kilnlocation"
+              label="Search by Location"
               id="outlined-size-normal"
               name="searchbykilnlocation"
               value={searchbykilnlocation}

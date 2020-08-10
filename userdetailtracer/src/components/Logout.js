@@ -10,7 +10,7 @@ const Logout = () => {
       <div className="logoutIn">
         <h2>You have been successfully logged out.</h2>
 
-        <Link to="/login">
+        <Link to="login">
           <Button variant="contained" color="primary">
             Login Again
           </Button>

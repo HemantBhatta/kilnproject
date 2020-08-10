@@ -1,5 +1,6 @@
 import React from 'react'
-import WorkersInfoInput from './WorkersInfoInput'
+import { Redirect } from "react-router-dom";
+
 
 
 
@@ -8,7 +9,8 @@ const Home = () => {
   
     return (
         <div>
-            <WorkersInfoInput/>
+            <Redirect to ={{pathname:'workers'}} />
+            {/* home */}
         </div>
     )
 }

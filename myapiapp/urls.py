@@ -6,10 +6,12 @@ router = DefaultRouter()
 router.register('users',views.UserViewSet)
 
 urlpatterns = [
-   # path('',include(router.urls)),
+#    path('',include(router.urls)),
     path('workers/<int:pk>', views.workers_detail),
     path('workers/', views.workers_list),
     path('kiln/<int:pk>', views.kiln_detail),
     path('kiln/', views.kiln_list),
+    path('user/', views.user),
+    path('ngos/', views.ngos_list),
     path('',include(router.urls))
 ]

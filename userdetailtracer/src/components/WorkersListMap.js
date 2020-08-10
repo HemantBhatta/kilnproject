@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   }
 });
 const WorkersListMap = ({ worker }) => {
-  const {deleteWorker,OpenModal} = useContext(myContext);
+  const {deleteWorker,OpenModal, isSuperUser} = useContext(myContext);
   const classes = useStyles();
   return (
     <Grid item xs={12} sm={6} md={4}>
@@ -39,10 +39,10 @@ const WorkersListMap = ({ worker }) => {
           </Typography>
                 
           <Typography className={classes.pos} variant="body1" component="p">
-            Worker Category: {worker.workercategory}
+            Worker Category: {worker.category}
           </Typography>
           <Typography className={classes.pos} variant="body1" component="p">
-            Naike Name: {worker.naikename}
+            Naike Name: {worker.naike_f_name}
           </Typography>
           <Typography className={classes.pos} variant="body1" component="p">
             Gender: {worker.gender}
@@ -66,17 +66,21 @@ const WorkersListMap = ({ worker }) => {
           <Typography className={classes.pos} variant="body1" component="p">
             Kiln: {worker.kiln.name}
           </Typography>
-          <Link to={`workers/${worker.id}`}>
-          <Button  className={classes.buttonMargin} variant="contained" color="primary">
-            Edit
-          </Button>
+          
+          {isSuperUser() ? <span>
+            <Link to={`/workers/${worker.id}/`}>
+            <Button  className={classes.buttonMargin} variant="contained" color="primary">
+              Edit
+            </Button>
           </Link>
           <Button onClick={()=>deleteWorker(worker.id)}   className={classes.buttonMargin} variant="contained" color="secondary">
             Delete
-          </Button>
+          </Button></span> : null
+          }<span>
           <Button  onClick={()=>OpenModal(worker.id)} variant="contained" color="secondary" className={classes.buttonMargin}>
             Payment
-          </Button>
+          </Button></span>
+         
         </CardContent>
        
       </Card>

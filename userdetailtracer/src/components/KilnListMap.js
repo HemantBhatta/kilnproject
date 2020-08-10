@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 
 const KilnListMap = ({ kiln }) => {
   const classes = useStyles();
-  const { deleteKiln } = useContext(myContext);
+  const { deleteKiln ,isSuperUser} = useContext(myContext);
 
   return (
     <Grid item xs={12} sm={6} md={4}>
@@ -37,7 +37,7 @@ const KilnListMap = ({ kiln }) => {
           <Typography className={classes.pos} variant="body2">
             Kiln Address: {kiln.address}
           </Typography>
-
+{ isSuperUser() ? 
           <Button
             onClick={() => deleteKiln(kiln.id)}
             className={classes.posBtn}
@@ -46,6 +46,7 @@ const KilnListMap = ({ kiln }) => {
           >
             Delete
           </Button>
+: null} 
         </CardContent>
       </Card>
     </Grid>

@@ -19,8 +19,10 @@ from django.urls import path,include
 from rest_framework.authtoken.views import obtain_auth_token
 from django.shortcuts import render
 from rest_framework.response import Response
+from django.forms.models import model_to_dict
 
 def index(request):
+    return Response('asdasd')
     return render(request,'index.html')
 
 # def indexo(r):

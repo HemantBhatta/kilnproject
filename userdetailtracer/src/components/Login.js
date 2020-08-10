@@ -9,7 +9,7 @@ import {
   Typography,
   TextField,
   Button,
-  Link,
+ 
   Box,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
@@ -64,7 +64,10 @@ class Login extends React.Component {
       })
       .then(res=>{
         localStorage.setItem("item", JSON.stringify(res.data.token));
-        this.setState({});
+      
+       
+       this.setState({})
+       window.location.href = ''
       })
       .catch((err) => console.log(err));
 
@@ -83,7 +86,7 @@ class Login extends React.Component {
     return (
       <div>
         {isAlreadyAuthenticated ? (
-          <Redirect to={{ pathname: "/workers" }} />
+          <Redirect to={{ pathname: "workers" }} />
         ) : (
           <Container maxWidth="sm" component="main">
             <Box component="div" mt={10}>
@@ -144,9 +147,9 @@ class Login extends React.Component {
                 </form>
                 <Grid container justify="flex-end">
                   <Grid item>
-                    <Link href="/register" variant="body2">
+                    <a href="#register" className='registerLink'>
                       Need an account? Register
-                    </Link>
+                    </a>
                   </Grid>
                 </Grid>
               </div>

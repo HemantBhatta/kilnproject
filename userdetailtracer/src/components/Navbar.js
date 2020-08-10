@@ -19,14 +19,13 @@ const Navbar = () => {
   const { mobileNav,CloseNavMenu,OpenNavMenu } = useContext(myContext);
   const isAlreadyAuthenticated = isAuthenticated();
 
-
   return (
     <div>
       <AppBar position="static">
         <Toolbar className="nav">
           <div className="navLeft">
             <Typography edge="start" className="logoTitle" variant="h6">
-              Better Brick Nepal
+            Global Fairness Initiative
             </Typography>
             <div className="burgerBar">
               { mobileNav ?  
@@ -49,8 +48,14 @@ const Navbar = () => {
               Workers
             </Button>
             </Link>
+            <Link to='/ngos'>
+            <Button  className="loginButton" >
+              Ngos
+            </Button>
+            </Link>
             <div>
               {isAlreadyAuthenticated ? (
+                <div>
                 <span>
                    <Link to='/logout'>
                   <Button  className="loginButton">
@@ -58,6 +63,7 @@ const Navbar = () => {
                   </Button>
                   </Link>
                 </span>
+              </div>
               ) : (
                 <span>
                    <Link to='/login'>

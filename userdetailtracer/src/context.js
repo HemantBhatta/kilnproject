@@ -14,11 +14,11 @@ class ContextProvider extends Component {
     gender: "All",
     searchbyworkername: '',
     searchbycountry: '',
-    searchbydistrict:'' ,
-    searchbymunicipality: '',
+    searchbydistrict:'All' ,
+    searchbymunicipality: 'All',
     searchbyward: '',
-    searchbyworkercategory: '',
-    searchbynaikename: '',
+    searchbyworkercategory: 'All',
+    searchbynaike_f_name: '',
     searchbykilnname: '',
     mobileNav: false,
     searchbykiln: '',
@@ -27,7 +27,8 @@ class ContextProvider extends Component {
     ModalStatus:false,
     ModalData:[],
     alertData: null,
-    csrftoken:''
+    csrftoken:'',
+    user: null
   };
 
   componentDidMount() {
@@ -48,7 +49,11 @@ class ContextProvider extends Component {
     })
     .catch((err) => console.log(err));
 
-    
+    Axiosapi.get('user')
+    .then(res=>{
+      this.hookState({ user: res.data })
+    })
+    .catch((err) => console.log(err));
   }
 
   hookState = state => {
@@ -96,74 +101,78 @@ class ContextProvider extends Component {
       workersInfo,
       gender,
       searchbyworkername,
-     
+      
       searchbydistrict,
       searchbymunicipality,
-      searchbyward,
+     
       searchbyworkercategory,
-      searchbynaikename,
-      searchbykilnname,
+      searchbynaike_f_name,
+      
     } = this.state;
 
     let tempWorkersInfo = [...workersInfo];
-    if (kname !== "All") {
+  
+    if (searchbyworkername !== null) {
+     const search = searchbyworkername.toLowerCase()
       tempWorkersInfo = tempWorkersInfo.filter((worker) => {
-        return worker.kiln.name === kname;
+        return worker.f_name.toLowerCase().includes(search);
       });
+    
+
     }
+
+
+    if (searchbynaike_f_name !== null) {
+     const search = searchbynaike_f_name.toLowerCase()
+      tempWorkersInfo = tempWorkersInfo.filter((worker) => {
+        return worker.naike_f_name.toLowerCase().includes(search);
+      });
+     
+    }
+
 
     if (gender !== "All") {
+     const search = gender.toLowerCase()
       tempWorkersInfo = tempWorkersInfo.filter((worker) => {
-        return worker.gender.startsWith(gender.toUpperCase());
+        return worker.gender && worker.gender.toLowerCase().startsWith(search);
       });
+      
     }
 
-    if (searchbyworkername !== null) {
-      tempWorkersInfo = tempWorkersInfo.filter((worker) => {
-        return worker.f_name.includes(searchbyworkername.toUpperCase());
-      });
-    }
+   
 
   
 
-    if (searchbydistrict !== null) {
+    if (searchbydistrict !== "All") {
+      const search = searchbydistrict.toLowerCase()
       tempWorkersInfo = tempWorkersInfo.filter((worker) => {
-        return worker.district.includes(searchbydistrict.toUpperCase());
+        return worker.district.toLowerCase().includes(search);
       });
     }
 
-    if (searchbymunicipality !== null) {
+    if (searchbymunicipality !== "All") {
+      const search = searchbymunicipality.toLowerCase()
       tempWorkersInfo = tempWorkersInfo.filter((worker) => {
-        return worker.municipality.includes(searchbymunicipality.toUpperCase());
+        return worker.municipality && worker.municipality.toLowerCase().includes(search);
       });
     }
 
-    if (searchbyward !== null) {
+ 
+    if (searchbyworkercategory !== 'All') {
+    const search =  searchbyworkercategory.toLowerCase()
       tempWorkersInfo = tempWorkersInfo.filter((worker) => {
-        return worker.ward.includes(searchbyward.toUpperCase());
+        return worker.category && worker.category.toLowerCase().includes(search);
       });
+     
     }
 
-    if (searchbyworkercategory !== null) {
+    if (kname !== "All") {
+      const search = kname.toLowerCase()
       tempWorkersInfo = tempWorkersInfo.filter((worker) => {
-        return worker.workercategory.includes(
-          searchbyworkercategory.toUpperCase()
-        );
+        return worker.kiln.name.toLowerCase() === search;
       });
     }
-
-    if (searchbynaikename !== null) {
-      tempWorkersInfo = tempWorkersInfo.filter((worker) => {
-        return worker.naikename.includes(searchbynaikename.toUpperCase());
-      });
-    }
-
-    if (searchbykilnname !== null) {
-      tempWorkersInfo = tempWorkersInfo.filter((worker) => {
-        return worker.kiln.name.includes(searchbykilnname.toUpperCase());
-      });
-    }
-
+    
     this.hookState({ sortedWorkersInfo: tempWorkersInfo });
   };
 
@@ -178,14 +187,16 @@ class ContextProvider extends Component {
     let tempkilnInfo = [...kilnInfo];
 
     if (searchbykiln !== null) {
+      const search = searchbykiln.toLowerCase()
       tempkilnInfo = tempkilnInfo.filter((kiln) => {
-        return kiln.name.includes(searchbykiln.toUpperCase());
+        return kiln.name.toLowerCase().includes(search);
       });
     }
 
     if (searchbykilnlocation !== null) {
+      const search = searchbykilnlocation.toLowerCase()
       tempkilnInfo = tempkilnInfo.filter((kiln) => {
-        return kiln.address.includes(searchbykilnlocation.toUpperCase());
+        return kiln.address.toLowerCase().includes(search);
       });
     }
 
@@ -227,7 +238,13 @@ class ContextProvider extends Component {
         if (res.status === 204 && res.statusText === "No Content") {
         this.hookState({alertData:{type: 'success', msg: 'Worker deleted successfully'}})
         let filteredWorker = this.filterByIdworker(id)
-        this.hookState({workersInfo:filteredWorker, sortedWorkersInfo:filteredWorker})
+        this.hookState({workersInfo:filteredWorker, sortedWorkersInfo:filteredWorker, searchbyworkername: '',
+        gender: 'All',
+        searchbydistrict:'All' ,
+        searchbymunicipality: 'All',  
+        searchbyworkercategory: 'All',
+        searchbynaike_f_name: '',
+        searchbykilnname: ''})
       
         }
       })
@@ -248,7 +265,9 @@ class ContextProvider extends Component {
         if (res.status === 204 && res.statusText === "No Content") {
         this.hookState({alertData:{type: 'success', msg: 'Kiln deleted successfully'}})
         let filteredKiln = this.filterByIdkiln(id)
-        this.hookState({kilnInfo:filteredKiln, sortedkilnInfo:filteredKiln})
+        this.hookState({kilnInfo:filteredKiln, sortedkilnInfo:filteredKiln, searchbykiln: '',
+        searchbykilnlocation: '',})
+       
      
         }
       })
@@ -257,13 +276,17 @@ class ContextProvider extends Component {
       })
   };
 
+  isSuperUser = () => {
+      return this.state.user && this.state.user.is_superuser;
+  };
+
 
 OpenModal = (id) => {
        
         let modaldata =this.state.workersInfo.filter(worker=>{
           return worker.id === id
         })
-        
+        console.log(modaldata)
         this.hookState({ModalStatus:true,ModalData:modaldata})
 }
 
@@ -279,7 +302,6 @@ AlertFunc = (res) => {
 
 
   render() {
-
     return (
       <myContext.Provider
         value={{
@@ -297,7 +319,8 @@ AlertFunc = (res) => {
           WorkerEditStatefunc:this.WorkerEditStatefunc,
           OpenModal:this.OpenModal,
           CloseModal:this.CloseModal,
-          AlertFunc:this.AlertFunc
+          AlertFunc:this.AlertFunc,
+          isSuperUser: this.isSuperUser
         }}
       >
         {this.props.children}

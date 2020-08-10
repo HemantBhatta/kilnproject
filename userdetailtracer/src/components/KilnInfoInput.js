@@ -78,7 +78,7 @@ const KilnInfoInput = () => {
           />
         </div>
       ) : (
-        <Redirect to={{ pathname: "/login" }} />
+        <Redirect to={{ pathname: "login" }} />
       )}
     </div>
   );

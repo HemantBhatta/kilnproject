@@ -2,7 +2,11 @@ import React from "react";
 import {Grid, Container,Avatar,Typography,TextField,Button,Link,Box} from "@material-ui/core";
 import { withStyles } from '@material-ui/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Axiosapi from './Axiosapi'
+import {csrftoken} from './Axiosapi'
+
+import axios from 'axios'
+
+import { myContext } from "../context";
 
 
 const styles = theme => ({
@@ -37,29 +41,49 @@ class Register extends React.Component {
             first_name:'',
             last_name:'',
             email:'',
-            password: "",      
-           }
+            password: "", 
+            //ngo:''
+            ngo: parseInt(window.location.toString().split('ngo=')[1])  
+           },
+           alertInfo:this.context.alertData
     };
+
+    componentDidUpdate(prevProps,prevState){
     
-
-
-
-
+      if( prevState.alertInfo !== this.state.alertInfo){
+       this.context.AlertFunc(this.state.alertInfo);
+      }
+    }
+    
 
 
    register = (e) => {
 
     e.preventDefault()
+  
 
-      Axiosapi({
+    axios({
         method:'POST',
-        url:'users/',
-        data:this.state
+        headers: {
+          'X-CSRFToken':csrftoken
+      },
+        url : `${process.env.REACT_APP_BASE_URL}/api/users/`,
+        data:this.state.userInfo
       })
       .then(res=>{
-        console.log(res);
+       
+        if (res.status === 201 && res.statusText === "Created") {
+         
+          this.setState({alertInfo:{type: 'success', msg: 'Worker Registered Successfully.Please login to proceed.'}})
+          this.setState((prevState)=>{
+            return ({prevState, userInfo: this.state.userInfo})
+          })
+          window.location.href = `/#/login`
+         }
+        })
+        .catch((err) => {
+          this.setState({alertInfo:{type: 'error', msg: 'Something went wrong. Please try again.'}})
       })
-      .catch((err) => console.log(err));
     
 
   };
@@ -69,18 +93,14 @@ class Register extends React.Component {
  InputHandle = (e) => {
      let value = e.target.value;
      let name = e.target.name;
-
-     this.setState({
-         [name]:value
-     })
+      const {userInfo} = this.state;
+     this.setState({userInfo: {...userInfo, [name]:value}});
    };
 
 
-  
+   static contextType = myContext;
   render(){
     const { classes } = this.props;
-
-
 
   return (
     <div>   
@@ -120,7 +140,7 @@ class Register extends React.Component {
                         <TextField
                         autoComplete="fname"
                         variant="outlined"
-                        required
+                       
                         fullWidth
                         
                         name = 'first_name'
@@ -136,7 +156,7 @@ class Register extends React.Component {
                         <TextField
                         autoComplete="lname"
                         variant="outlined"
-                        required
+                     
                         fullWidth
                         name = 'last_name'
                         value ={this.state.last_name}
@@ -160,6 +180,8 @@ class Register extends React.Component {
                     autoComplete="email"
                 />
                 </Grid>
+
+
 
                 <Grid item xs={12}>
                 <TextField
@@ -204,7 +226,7 @@ class Register extends React.Component {
         </form>
         <Grid container  justify="flex-end">
             <Grid item>
-            <Link href="/login" variant="body2">
+            <Link href="#login" variant="body2" >
                 Already have an account? Login
               </Link>
             </Grid>

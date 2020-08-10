@@ -42,9 +42,19 @@ const WorkersInfoInputComp = ({
   const classes = useStyles();
 
 
+  // let kilnlisting = kilnlist.map((kiln) => {
+  //   return kiln.name;
+  // });
+  // let uniquekiln = [...new Set(kilnlisting), "All"].sort();
+  // console.log(uniquekiln)
+  // let kilnOption = uniquekiln.map((kiln,index) => {
+  //   return <MenuItem key={index} value={kiln}>{kiln}</MenuItem>;
+  // });
+  
   let kilnOption = kilnlist.map((kiln) => {
     return <MenuItem key={kiln.id} value={kiln.id}>{kiln.name}</MenuItem>;
   });
+
 
   return (
         <Container maxWidth="sm" component="main">
@@ -63,7 +73,7 @@ const WorkersInfoInputComp = ({
                 value={valuea.f_name}
                 onChange={InputHandler}
                 id="standard-basic"
-                label="Enter firstname"
+                label="Enter Firstname"
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -80,7 +90,7 @@ const WorkersInfoInputComp = ({
                 value={valuea.l_name}
                 onChange={InputHandler}
                 id="standard-basic"
-                label="Enter lastname"
+                label="Enter Lastname"
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -90,14 +100,14 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
+                
                 fullWidth
                 margin="normal"
-                name="naikename"
-                value={valuea.naikename}
+                name="naike_f_name"
+                value={valuea.naike_f_name}
                 onChange={InputHandler}
                 id="standard-basic"
-                label="Enter naikename"
+                label="Enter Naike name"
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -107,14 +117,14 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
+              
                 fullWidth
                 margin="normal"
-                name="naikelastname"
-                value={valuea.naikelastname}
+                name="naike_l_name"
+                value={valuea.naike_l_name}
                 onChange={InputHandler}
                 id="standard-basic"
-                label="Enter naikelastname"
+                label="Enter Naike last name"
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -124,14 +134,14 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
+               
                 fullWidth
                 margin="normal"
                 name="age"
                 value={valuea.age}
                 onChange={InputHandler}
                 id="standard-basic"
-                label="Enter age"
+                label="Enter Age"
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -141,14 +151,14 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
+                
                 fullWidth
                 margin="normal"
                 name="country"
                 value={valuea.country}
                 onChange={InputHandler}
                 id="standard-basic"
-                label="Enter country"
+                label="Enter Country"
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -158,14 +168,14 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
+              
                 fullWidth
                 margin="normal"
                 name="district"
                 value={valuea.district}
                 onChange={InputHandler}
                 id="standard-basic"
-                label="Enter district"
+                label="Enter District"
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -175,14 +185,14 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
+                
                 fullWidth
                 margin="normal"
                 name="municipality"
                 value={valuea.municipality}
                 onChange={InputHandler}
                 id="standard-basic"
-                label="Enter municipality"
+                label="Enter Municipality"
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -192,14 +202,14 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
+                
                 fullWidth
                 margin="normal"
                 name="ward"
                 value={valuea.ward}
                 onChange={InputHandler}
                 id="standard-basic"
-                label="Enter ward"
+                label="Enter Ward"
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -209,14 +219,14 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
+                
                 fullWidth
                 margin="normal"
                 name="workercategory"
                 value={valuea.workercategory}
                 onChange={InputHandler}
                 id="standard-basic"
-                label="Enter workercategory"
+                label="Enter Category"
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -227,13 +237,13 @@ const WorkersInfoInputComp = ({
               <TextField
                 variant="outlined"
                 margin="normal"
-                required
+               
                 fullWidth
                 name="phone"
                 value={valuea.phone}
                 onChange={InputHandler}
                 id="standard-basic"
-                label="Enter phone"
+                label="Enter Phone"
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -272,12 +282,14 @@ const WorkersInfoInputComp = ({
               <FormControl
                 variant="outlined"
                 fullWidth
+                required
                 className={classes.formControl}
               >
                 <InputLabel id="demo-simple-select-outlined-label">
                   Kiln Name
                 </InputLabel>
                 <Select
+              
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
                   value={valuea.kiln_id}

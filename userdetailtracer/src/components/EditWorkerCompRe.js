@@ -57,7 +57,7 @@ state={
     InputHandlerKiln = (e)=>{
     let name = e.target.name;
     let value = e.target.value;
-    console.log(name,value)
+   
     const singleWorkerInfo = {...this.state.singleWorkerInfo, [name]: value}
     this.setState({singleWorkerInfo})
   
@@ -74,8 +74,10 @@ state={
           })
           .then(res=>{
           
-            this.context.WorkerEditStatefunc(this.state.singleWorkerInfo);
             if (res.status === 200 && res.statusText === "OK") {
+              this.state.singleWorkerInfo.id = res.data.id;
+              this.state.singleWorkerInfo.kiln = this.context.kilnInfo.find(e => e.id === this.state.singleWorkerInfo.kiln_id);
+              this.context.WorkerEditStatefunc(this.state.singleWorkerInfo);
               this.setState({alertInfo:{type: 'success', msg: 'Worker Updated Successfully'}})
              }
             })
@@ -92,7 +94,7 @@ state={
 
     static contextType = myContext;
     render() {
-        console.log(this.state.singleWorkerInfo)
+       
      const {kilnInfo} =  this.context
      let kilnOption = kilnInfo.map((kiln)=>{
         return   <MenuItem value={kiln.id}>{kiln.name}</MenuItem>
@@ -142,14 +144,14 @@ state={
                   <Grid item xs={12} sm={6}>
                     <TextField
                       variant="outlined"
-                      required
+                     
                       fullWidth
                       margin="normal"
-                      name="naikename"
-                      value={this.state.singleWorkerInfo.naikename}
+                      name="naike_f_name"
+                      value={this.state.singleWorkerInfo.naike_f_name}
                       onChange={this.InputHandler}
                       id="standard-basic"
-                      label="Enter naikename"
+                      label="Enter naike_f_name"
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -159,14 +161,14 @@ state={
                   <Grid item xs={12} sm={6}>
                     <TextField
                       variant="outlined"
-                      required
+                    
                       fullWidth
                       margin="normal"
-                      name="naikelastname"
-                      value={this.state.singleWorkerInfo.naikelastname}
+                      name="naike_l_name"
+                      value={this.state.singleWorkerInfo.naike_l_name}
                       onChange={this.InputHandler}
                       id="standard-basic"
-                      label="Enter naikelastname"
+                      label="Enter naike_l_name"
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -178,7 +180,7 @@ state={
                   <Grid item xs={12} sm={6}>
                     <TextField
                       variant="outlined"
-                      required
+                   
                       fullWidth
                       margin="normal"
                       name="age"
@@ -197,7 +199,7 @@ state={
                   <Grid item xs={12} sm={6}>
                     <TextField
                       variant="outlined"
-                      required
+                    
                       fullWidth
                       margin="normal"
                       name="district"
@@ -214,7 +216,7 @@ state={
                   <Grid item xs={12} sm={6}>
                     <TextField
                       variant="outlined"
-                      required
+                     
                       fullWidth
                       margin="normal"
                       name="municipality"
@@ -231,7 +233,7 @@ state={
                   <Grid item xs={12} sm={6}>
                     <TextField
                       variant="outlined"
-                      required 
+                    
                       fullWidth
                       margin="normal"
                       name="ward"
@@ -248,7 +250,7 @@ state={
                   <Grid item xs={12} sm={6}>
                     <TextField
                       variant="outlined"
-                      required
+                    
                       fullWidth
                       margin="normal"
                       name="workercategory"
@@ -267,7 +269,7 @@ state={
                     <TextField
                       variant="outlined"
                       margin="normal"
-                      required
+                    
                       fullWidth
                       name="phone"
                       value={this.state.singleWorkerInfo.phone}
@@ -320,8 +322,8 @@ state={
                       <Select
                         labelId="demo-simple-select-outlined-label"
                         id="demo-simple-select-outlined"
-                        value={this.state.singleWorkerInfo.kiln}
-                        name="kiln"
+                        value={this.state.singleWorkerInfo.kiln_id}
+                        name="kiln_id"
                         onChange={this.InputHandlerKiln}
                         label="kiln"
                         InputLabelProps={{

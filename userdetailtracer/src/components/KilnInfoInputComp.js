@@ -43,7 +43,7 @@ const KilnInfoInputComp = ({InputHandler,SubmitHandler,valuea})=> {
                 value={valuea.name}
                 onChange={InputHandler}
                 id="standard-basic"
-                label="Enter kilnname"
+                label="Enter Kilnname"
               />
             </Grid>
             <Grid item xs={12} >
@@ -56,7 +56,7 @@ const KilnInfoInputComp = ({InputHandler,SubmitHandler,valuea})=> {
                 value={valuea.address}
                 onChange={InputHandler}
                 id="standard-basic"
-                label="Enter kilnaddress"
+                label="Enter Kilnaddress"
               />
             </Grid>
 
