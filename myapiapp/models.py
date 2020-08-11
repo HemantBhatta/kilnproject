@@ -79,8 +79,8 @@ class Workers(models.Model):
     phone = models.CharField(max_length=100,blank=True,null=True)
     category = models.CharField(max_length=100 ,blank=True,null=True)
     kiln = models.ForeignKey(Kiln,on_delete = models.CASCADE,blank=True,null=True)
-    children = JSONField(blank=True,null=True)
-    extra = JSONField(blank=True,null=True)
+    # children = JSONField(blank=True,null=True)
+    # extra = JSONField(blank=True,null=True)
 
 
 class ngos(models.Model):
