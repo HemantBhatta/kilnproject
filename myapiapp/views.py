@@ -42,8 +42,8 @@ def workers_list(request):
         kilns = Kiln.objects
         #return Response(users)
         for u in users:
-            u['children'] = json.loads(u['children'])
-            u['extra'] = json.loads(u['extra'])
+            u['children'] = json.loads(u['children']) if type(u['children']) is str else u['children']
+            u['extra'] = json.loads(u['extra']) if type(u['extra']) is str else u['extra']
             if 'kiln_id' in u:
                 u['kiln'] = model_to_dict(kilns.get(id=u['kiln_id']))
         return Response(users)
@@ -110,8 +110,8 @@ def workers_detail(request,pk):
             serializer.save()
             data = dict(serializer.data)
             data['kiln_id'] =  data['kiln']
-            data['children'] = json.loads(data['children'])
-            data['extra'] = json.loads(data['extra'])
+            data['children'] = json.loads(data['children']) if type(data['children']) is str else data['children']
+            data['extra'] = json.loads(data['extra']) if type(data['extra']) is str else data['extra']
             del data['kiln']
             return Response(data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

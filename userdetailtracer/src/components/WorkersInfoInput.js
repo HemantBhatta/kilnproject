@@ -37,7 +37,8 @@ const WorkersInfoInput = () => {
     phone: "",
     salary: "",
     kiln_id: "",
-    extra: "",
+    extra: null,
+    children: null
   };
 
   const [valuea, setValue] = useState(workers);
