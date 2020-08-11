@@ -299,8 +299,6 @@ AlertFunc = (res) => {
 }
 
 
-
-
   render() {
     return (
       <myContext.Provider

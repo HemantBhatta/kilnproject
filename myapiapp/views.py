@@ -12,6 +12,7 @@ from .models import ExtendedUser
 from rest_framework.permissions import IsAuthenticated  ,AllowAny
 from .serializers import UserSerializer
 from rest_framework.exceptions import PermissionDenied
+import json
 
 # Create your views here.
 
@@ -41,6 +42,8 @@ def workers_list(request):
         kilns = Kiln.objects
         #return Response(users)
         for u in users:
+            u['children'] = json.loads(u['children'])
+            u['extra'] = json.loads(u['extra'])
             if 'kiln_id' in u:
                 u['kiln'] = model_to_dict(kilns.get(id=u['kiln_id']))
         return Response(users)
@@ -48,6 +51,8 @@ def workers_list(request):
     elif request.method == 'POST':
         if not request.user.is_superuser: return permDenied()
         request.data['kiln'] = request.data['kiln_id']
+        request.data['children'] = json.dumps(request.data['children'])
+        request.data['extra'] = json.dumps(request.data['extra'])
         del request.data['kiln_id']
        
         serializer = WorkersListSerializer(data=request.data)
@@ -96,12 +101,17 @@ def workers_detail(request,pk):
     elif request.method == 'PUT':
         if not request.user.is_superuser: return permDenied()
         request.data['kiln'] = request.data['kiln_id']
+        request.data['children'] = json.dumps(request.data['children'])
+        request.data['extra'] = json.dumps(request.data['extra'])
         del request.data['kiln_id']
+       
         serializer = WorkersListSerializer(worker,data=request.data)
         if serializer.is_valid():
             serializer.save()
             data = dict(serializer.data)
             data['kiln_id'] =  data['kiln']
+            data['children'] = json.loads(data['children'])
+            data['extra'] = json.loads(data['extra'])
             del data['kiln']
             return Response(data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

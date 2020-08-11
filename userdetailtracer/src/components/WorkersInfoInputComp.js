@@ -1,13 +1,14 @@
+import Title from "./Title";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
+import { scroller } from "react-scroll";
 import { Button, Grid, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import { Element } from "react-scroll";
 import Select from "@material-ui/core/Select";
-
-import Title from './Title'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -26,8 +27,6 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     minWidth: 120,
   },
-
-
 }));
 
 
@@ -41,7 +40,15 @@ const WorkersInfoInputComp = ({
 }) => {
   const classes = useStyles();
 
+  const scrollToElement=(element)=>{
+    scroller.scrollTo(element,{
 
+     duration:1000,
+     delay:100,
+     smooth:true,
+
+    })
+  }
   // let kilnlisting = kilnlist.map((kiln) => {
   //   return kiln.name;
   // });
@@ -50,22 +57,28 @@ const WorkersInfoInputComp = ({
   // let kilnOption = uniquekiln.map((kiln,index) => {
   //   return <MenuItem key={index} value={kiln}>{kiln}</MenuItem>;
   // });
-  
+
   let kilnOption = kilnlist.map((kiln) => {
-    return <MenuItem key={kiln.id} value={kiln.id}>{kiln.name}</MenuItem>;
+    return (
+      <MenuItem key={kiln.id} value={kiln.id}>
+        {kiln.name}, {kiln.address}
+      </MenuItem>
+    );
   });
 
 
+
   return (
-        <Container maxWidth="sm" component="main">
+    <Container maxWidth="sm" component="main">
       <div className={classes.paper}>
+       
+          <Title title="Add Worker" />
       
-        <Title title='Add Worker'/>
         <form className={classes.form} action="" onSubmit={SubmitHandler}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                 variant="outlined"
+                variant="outlined"
                 margin="normal"
                 required
                 fullWidth
@@ -77,7 +90,6 @@ const WorkersInfoInputComp = ({
                 InputLabelProps={{
                   shrink: true,
                 }}
-               
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -100,7 +112,6 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                
                 fullWidth
                 margin="normal"
                 name="naike_f_name"
@@ -117,7 +128,6 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-              
                 fullWidth
                 margin="normal"
                 name="naike_l_name"
@@ -134,7 +144,6 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-               
                 fullWidth
                 margin="normal"
                 name="age"
@@ -151,7 +160,6 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                
                 fullWidth
                 margin="normal"
                 name="country"
@@ -168,7 +176,6 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-              
                 fullWidth
                 margin="normal"
                 name="district"
@@ -185,7 +192,6 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                
                 fullWidth
                 margin="normal"
                 name="municipality"
@@ -202,7 +208,6 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                
                 fullWidth
                 margin="normal"
                 name="ward"
@@ -219,7 +224,6 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                
                 fullWidth
                 margin="normal"
                 name="workercategory"
@@ -237,7 +241,6 @@ const WorkersInfoInputComp = ({
               <TextField
                 variant="outlined"
                 margin="normal"
-               
                 fullWidth
                 name="phone"
                 value={valuea.phone}
@@ -249,14 +252,13 @@ const WorkersInfoInputComp = ({
                 }}
               />
             </Grid>
-         
 
             <Grid item xs={12} sm={12}>
               <FormControl
-               variant="outlined"
-               fullWidth
-               className={classes.formControl}
-             >
+                variant="outlined"
+                fullWidth
+                className={classes.formControl}
+              >
                 <InputLabel id="demo-simple-select-outlined-label">
                   Gender
                 </InputLabel>
@@ -289,7 +291,6 @@ const WorkersInfoInputComp = ({
                   Kiln Name
                 </InputLabel>
                 <Select
-              
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
                   value={valuea.kiln_id}
@@ -300,14 +301,14 @@ const WorkersInfoInputComp = ({
                     shrink: true,
                   }}
                 >
-                  
-              {kilnOption}
+                  {kilnOption}
                 </Select>
               </FormControl>
             </Grid>
           </Grid>
 
           <Button
+            onClick={()=>scrollToElement("Home")}
             className={classes.submit}
             fullWidth
             type="submit"
@@ -318,8 +319,8 @@ const WorkersInfoInputComp = ({
           </Button>
         </form>
       </div>
-    </Container> 
-  ) 
+    </Container>
+  );
 };
 
 export default WorkersInfoInputComp;

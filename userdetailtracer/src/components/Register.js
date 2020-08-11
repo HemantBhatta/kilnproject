@@ -1,9 +1,9 @@
 import React from "react";
-import {Grid, Container,Avatar,Typography,TextField,Button,Link,Box} from "@material-ui/core";
+import {Grid, Container,Avatar,Typography,TextField,Button,Box} from "@material-ui/core";
 import { withStyles } from '@material-ui/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {csrftoken} from './Axiosapi'
-
+import {Link, Redirect} from 'react-router-dom'
 import axios from 'axios'
 
 import { myContext } from "../context";
@@ -29,11 +29,7 @@ const styles = theme => ({
     },
   });
 
-
-
-class Register extends React.Component {
-    
-    
+class Register extends React.Component {    
     
     state = {      
            userInfo:{
@@ -43,7 +39,7 @@ class Register extends React.Component {
             email:'',
             password: "", 
             //ngo:''
-            ngo: parseInt(window.location.toString().split('ngo=')[1])  
+            ngo: parseInt(window.location.toString().split('ngo=')[1])
            },
            alertInfo:this.context.alertData
     };
@@ -101,6 +97,9 @@ class Register extends React.Component {
    static contextType = myContext;
   render(){
     const { classes } = this.props;
+    if( !this.state.userInfo.ngo ){
+        return <Redirect to={{ pathname:'/login' }}/>
+    }
 
   return (
     <div>   
