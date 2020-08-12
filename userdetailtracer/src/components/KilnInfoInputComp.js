@@ -1,6 +1,7 @@
 import React from 'react'
 import TextField from "@material-ui/core/TextField";
 import { Button, Grid, Container } from "@material-ui/core";
+import {scroller} from 'react-scroll'
 import { makeStyles } from "@material-ui/core/styles";
 
 import Title from './Title'
@@ -26,6 +27,15 @@ const useStyles = makeStyles((theme) => ({
 const KilnInfoInputComp = ({InputHandler,SubmitHandler,valuea})=> {
 
     const classes = useStyles();
+    const scrollToElement=(element)=>{
+      scroller.scrollTo(element,{
+  
+       duration:1000,
+       delay:100,
+       smooth:true,
+  
+      })
+    }
     return (
         <Container component="main" maxWidth="sm">
       <div className={classes.paper}>
@@ -64,7 +74,8 @@ const KilnInfoInputComp = ({InputHandler,SubmitHandler,valuea})=> {
            
 
             </Grid>
-            <Button      
+            <Button   
+           onClick={()=>scrollToElement("Home")} 
             className={classes.submit}
             fullWidth
             type="submit"

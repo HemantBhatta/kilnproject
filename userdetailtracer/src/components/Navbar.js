@@ -58,7 +58,7 @@ const Navbar = () => {
                 <div>
                 <span>
                    <Link to='/logout'>
-                  <Button  className="loginButton">
+                  <Button onClick={()=>window.location.reload()} className="loginButton">
                     Logout
                   </Button>
                   </Link>
@@ -67,7 +67,7 @@ const Navbar = () => {
               ) : (
                 <span>
                    <Link to='/login'>
-                  <Button  className="loginButton" variant="h6">
+                  <Button   className="loginButton" variant="h6">
                     Login
                   </Button>
                   </Link>

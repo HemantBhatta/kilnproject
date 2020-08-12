@@ -1,9 +1,6 @@
 import React from 'react'
 import Pagination from '@material-ui/lab/Pagination';
 
-
-
-
 const WorkersPaginate = ({itemsPerPage,totalItems,paginate}) => {
 
     const [page, setPage] = React.useState(1);

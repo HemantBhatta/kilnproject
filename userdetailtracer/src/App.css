@@ -275,11 +275,6 @@ font-family: 'Roboto', sans-serif;
   margin: 0 auto;
 }
 
-/* .ngoInnerSection
-{
-  background-color: rgb(218, 216, 218);
-  box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.7);
-} */
 
 .ngoNameList
 {
@@ -309,4 +304,19 @@ font-family: 'Roboto', sans-serif;
 {
   padding-bottom: 50px;
 }
+
+
+
+/* error page starts****************** */
+
+.errorSection,.spinnerSection
+{
+  display: grid;
+  place-items: center;
+  min-height: 70vh;
+}
+
+
+/* Spinner section *********/
+
 

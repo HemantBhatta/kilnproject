@@ -7,7 +7,8 @@ class ExtendedUserAdmin(admin.ModelAdmin):
 admin.site.register(ExtendedUser,ExtendedUserAdmin)
 
 class WorkersAdmin(admin.ModelAdmin):
-    list_display = ['f_name']
+    list_display = ['f_name','l_name']
+    search_fields=('f_name','l_name','gender')
 
 admin.site.register(Workers,WorkersAdmin)
 

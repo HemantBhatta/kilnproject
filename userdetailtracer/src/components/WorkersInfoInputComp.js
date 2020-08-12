@@ -7,7 +7,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
-import { Element } from "react-scroll";
 import Select from "@material-ui/core/Select";
 
 const useStyles = makeStyles((theme) => ({
@@ -49,14 +48,7 @@ const WorkersInfoInputComp = ({
 
     })
   }
-  // let kilnlisting = kilnlist.map((kiln) => {
-  //   return kiln.name;
-  // });
-  // let uniquekiln = [...new Set(kilnlisting), "All"].sort();
-  // console.log(uniquekiln)
-  // let kilnOption = uniquekiln.map((kiln,index) => {
-  //   return <MenuItem key={index} value={kiln}>{kiln}</MenuItem>;
-  // });
+
 
   let kilnOption = kilnlist.map((kiln) => {
     return (

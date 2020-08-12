@@ -6,6 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Title from './Title'
+import {scroller} from 'react-scroll'
 import Axiosapi from './Axiosapi'
 
 
@@ -42,6 +43,16 @@ state={
       this.context.AlertFunc(this.state.alertInfo);
      }
    }
+
+    scrollToElement=(element)=>{
+    scroller.scrollTo(element,{
+
+     duration:1000,
+     delay:100,
+     smooth:true,
+
+    })
+  }
 
 
     InputHandler = (e) => {
@@ -336,7 +347,8 @@ state={
                   </Grid>
                 </Grid>
                
-                <Button      
+                <Button    
+                onClick={()=>this.scrollToElement("Home")}   
                  className='editWorkerBtn'
                   fullWidth
                   type="submit"

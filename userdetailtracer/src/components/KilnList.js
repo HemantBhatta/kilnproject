@@ -5,6 +5,7 @@ import {myContext} from '../context'
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import KilnFilter from './FilterComponent/KilnFilter'
 import WorkersPaginate from './WorkersPaginate'
+import Spinner from './Spinner'
 import {Link, Redirect} from 'react-router-dom'
 
 import Title from './Title'
@@ -48,7 +49,11 @@ const KilnList = () =>  {
 
     const {sortedkilnInfo,isSuperUser} = useContext(myContext)
     const [currentPage,setCurrentPage] = useState(1)
-    const [kilnsPerPage] = useState(2)
+    const [kilnsPerPage] = useState(9)
+    if(!sortedkilnInfo)
+  {
+    return <Spinner/>
+  }
 
     const indexOfLastKiln = currentPage * kilnsPerPage;
     const indexOfFirstKiln  = indexOfLastKiln - kilnsPerPage

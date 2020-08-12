@@ -28,7 +28,8 @@ class ContextProvider extends Component {
     ModalData:[],
     alertData: null,
     csrftoken:'',
-    user: null
+    user: null,
+    offlineWorkers: {}
   };
 
   componentDidMount() {
@@ -36,29 +37,38 @@ class ContextProvider extends Component {
   }
 
   fetchAllData = () => {
-    Axiosapi.get('workers')
-    .then(res=>{
-    
-      this.hookState({ workersInfo: res.data, sortedWorkersInfo: res.data })
-    }) 
-    .catch((err) => console.log(err));
+    if( localStorage.getItem('app-data')){
+      const values = JSON.parse(localStorage.getItem('app-data'))
+      this.setState({
+        workersInfo:values.workersInfo,
+        sortedWorkersInfo:values.workersInfo,
+        kilnInfo:values.kilnInfo,
+        sortedkilnInfo:values.kilnInfo,
+        offlineWorkers: values.offlineWorkers,
+        user:values.user
+      });
 
-    Axiosapi.get('kiln')
-    .then(res=>{
-      this.hookState({ kilnInfo: res.data, sortedkilnInfo: res.data })
-    })
-    .catch((err) => console.log(err));
-
-    Axiosapi.get('user')
-    .then(res=>{
-      this.hookState({ user: res.data })
-    })
-    .catch((err) => console.log(err));
+      if( Object.keys(values.offlineWorkers).length ){
+        console.log( Object.values(values.offlineWorkers) );
+        //this.hookState({offlineWorkers: {}});
+      }
+    }  else {
+    Promise.all([Axiosapi.get('workers'), Axiosapi.get('kiln'), Axiosapi.get('user')])
+      .then(([workers, kilns, user]) => {
+        this.hookState({ 
+          workersInfo: workers.data, sortedWorkersInfo: workers.data,
+          kilnInfo: kilns.data, sortedkilnInfo: kilns.data,
+          user: user.data 
+        })
+      }).catch(er => console.log(er))
+    }
   }
 
   hookState = state => {
     this.setState(state);
-  
+    const {workersInfo, kilnInfo, user, offlineWorkers} = this.state;
+    console.log(offlineWorkers, 'hj');
+    localStorage.setItem('app-data', JSON.stringify({workersInfo, kilnInfo, user, offlineWorkers}));
   }
 
 
@@ -79,10 +89,17 @@ class ContextProvider extends Component {
     const workersInfo = this.state.workersInfo;
     const idx = workersInfo.findIndex(e => e.id === worker.id);
     if( idx > -1 ){
-      workersInfo.splice(idx, 1, worker);
+      workersInfo.splice(idx, 1, worker);  
       this.hookState({workersInfo,sortedWorkersInfo: workersInfo});
     }
   }
+
+  WorkerEditPaymentFunc =(worker)=> {
+    this.state.offlineWorkers[worker.id] = worker;
+    console.log(this.state.offlineWorkers, 'hjofline');
+    this.hookState({offlineWorkers: this.state.offlineWorkers});
+  }
+
 
   ChangeOptionFilter = (e) => {
     let value = e.target.value;
@@ -286,7 +303,7 @@ OpenModal = (id) => {
         let modaldata =this.state.workersInfo.filter(worker=>{
           return worker.id === id
         })
-        console.log(modaldata)
+       
         this.hookState({ModalStatus:true,ModalData:modaldata})
 }
 
@@ -318,7 +335,8 @@ AlertFunc = (res) => {
           OpenModal:this.OpenModal,
           CloseModal:this.CloseModal,
           AlertFunc:this.AlertFunc,
-          isSuperUser: this.isSuperUser
+          isSuperUser: this.isSuperUser,
+          WorkerEditPaymentFunc: this.WorkerEditPaymentFunc
         }}
       >
         {this.props.children}

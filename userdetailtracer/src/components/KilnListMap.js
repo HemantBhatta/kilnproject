@@ -4,6 +4,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import {scroller} from 'react-scroll'
 import Grid from "@material-ui/core/Grid";
 import { myContext } from "../context";
 
@@ -27,6 +28,17 @@ const KilnListMap = ({ kiln }) => {
   const classes = useStyles();
   const { deleteKiln ,isSuperUser} = useContext(myContext);
 
+  const scrollToElement=(element)=>{
+    scroller.scrollTo(element,{
+
+     duration:1000,
+     delay:100,
+     smooth:true,
+
+    })
+  }
+
+
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card className={classes.root}>
@@ -39,7 +51,8 @@ const KilnListMap = ({ kiln }) => {
           </Typography>
 { isSuperUser() ? 
           <Button
-            onClick={() => deleteKiln(kiln.id)}
+           
+            onClick={() => {deleteKiln(kiln.id);scrollToElement("Home")}}
             className={classes.posBtn}
             variant="contained"
             color="secondary"

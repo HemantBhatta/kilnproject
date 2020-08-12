@@ -10,7 +10,7 @@ const Home = () => {
     return (
         <div>
             <Redirect to ={{pathname:'workers'}} />
-            {/* home */}
+           
         </div>
     )
 }

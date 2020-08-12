@@ -1,14 +1,22 @@
 import React, { Component } from 'react'
 import Axiosapi from './Axiosapi'
 import Title from './Title'
-import NgoListMap from './NgoListMap'
 import {myContext} from '../context'
-import {Link, Redirect} from 'react-router-dom'
 import Card from '@material-ui/core/Card';
+import Spinner from './Spinner'
+import {Redirect} from 'react-router-dom'
+
+
+const isAuthenticated = () => {
+    const token = localStorage.getItem("item");
+    return token && token.length > 10;
+  };
+
 class NgosList extends Component {
 
+   
     state={
-        ngos :[]
+        ngos :[],
     }
 
     componentDidMount()
@@ -22,11 +30,13 @@ class NgosList extends Component {
     static contextType = myContext;
     render() {
         const {ngos} = this.state
+        const isAlreadyAuthenticated = isAuthenticated();
+
         if(!ngos){
-            return 'loading'
+            return <Spinner/>
         }
         const {workersInfo} = this.context
-        console.log(ngos)
+       
         let ngolist = ngos.map(ngo=>{
         return <Card style={{'margin-bottom':'.5em', 'padding': '1em'}}>
              <p key={ngo.id}>{ngo.name}</p>
@@ -37,17 +47,17 @@ class NgosList extends Component {
             </div>
             </Card>
         })
-        console.log(workersInfo)
 
-        
-console.log(ngos)
 
         return (
+            <div>
+                { isAlreadyAuthenticated ? 
             <div className='ngoSection'>
                 <Title title='NgoList'/>
                 <div className='ngoInnerSection'>
                     {ngolist}
                 </div>
+            </div> : <Redirect to={{pathname:'/login'}}/>}
             </div>
         )
     }

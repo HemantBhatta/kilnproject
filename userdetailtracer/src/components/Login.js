@@ -2,6 +2,8 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import axios from 'axios'
 import {csrftoken} from './Axiosapi'
+import { myContext } from "../context";
+
 import {
   Grid,
   Container,
@@ -39,8 +41,17 @@ class Login extends React.Component {
     last_name: "",
     email: "",
     password: "",
-   }
+   },
+   alertInfo:this.context.alertData
   };
+
+  componentDidUpdate(prevProps,prevState){
+    
+    if( prevState.alertInfo !== this.state.alertInfo){
+   
+     this.context.AlertFunc(this.state.alertInfo);
+    }
+  }
 
   InputHandle = (e) => {
     let value = e.target.value;
@@ -63,13 +74,15 @@ class Login extends React.Component {
         data:this.state
       })
       .then(res=>{
+        console.log(res)
         localStorage.setItem("item", JSON.stringify(res.data.token));
       
-       
+     
        this.setState({})
        window.location.href = ''
       })
-      .catch((err) => console.log(err));
+      .catch((err) => this.setState({alertInfo:{type: 'error', msg: 'Something went wrong. Please try again.'}}));
+      
 
 
   };
@@ -78,6 +91,8 @@ class Login extends React.Component {
     const token = localStorage.getItem("item");
     return token && token.length > 10;
   };
+
+  static contextType = myContext;
 
   render() {
     const isAlreadyAuthenticated = this.isAuthenticated();
@@ -140,18 +155,19 @@ class Login extends React.Component {
                       variant="contained"
                       color="primary"
                       className={classes.submit}
+                      
                     >
                       Login
                     </Button>
                   </Box>
                 </form>
-                <Grid container justify="flex-end">
+                {/* <Grid container justify="flex-end">
                   <Grid item>
                     <a href="#register" className='registerLink'>
                       Need an account? Register
                     </a>
                   </Grid>
-                </Grid>
+                </Grid> */}
               </div>
             </Box>
           </Container>

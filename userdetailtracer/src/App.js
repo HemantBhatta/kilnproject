@@ -23,9 +23,7 @@ import { Element } from "react-scroll";
 import { myContext } from "./context";
 
 function App() {
- // const [open, setOpen] = React.useState(true);
   const { alertData, isSuperUser, AlertFunc } = useContext(myContext);
-  // console.log(setState);
   const alert = alertData ? (
     <Collapse in={true}>
       <Alert
@@ -68,6 +66,7 @@ function App() {
           <Route exact path="/logout" component={Logout} />
           <Route exact path="/kiln" component={KilnInfoInput} />
           <Route exact path="/workers" component={WorkersList} />
+        
           <Route exact path="/ngos" component={NgosList} />
           <Route exact path="/kilnlist" component={KilnList} />
           {super_user_routes}

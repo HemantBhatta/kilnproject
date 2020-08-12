@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
   },
   inputSection: {
     width: "90%",
-    
     margin: "auto",
   },
 }));
@@ -173,11 +172,6 @@ let municipalityOption = uniquemunicipality.map((municipality,index) => {
             </FormControl>
           </Grid>
 
-
-
-
-
-        
           <Grid item xs={6} sm={4} md={3}>
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel id="demo-simple-select-outlined-label">
