@@ -9,14 +9,14 @@ import { myContext } from "../../context";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    margin: theme.spacing(1),
-    width:'90%'
+   
+    width:'100%'
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
   inputSection: {
-    width: "90%",
+    width: "95%",
     margin: "auto",
   },
 }));
@@ -28,6 +28,7 @@ const WorkerFilter = () => {
     kname,
     gender,
     searchbyworkername,
+    searchbycode,
     ChangeOptionFilter,
     searchbydistrict,
     searchbymunicipality,
@@ -36,37 +37,31 @@ const WorkerFilter = () => {
   
   } = useContext(myContext);
 
+// console.log(workersInfo)
+ const uniqueFilter = (arr,grp) => {
 
-let categorylist = workersInfo.map((worker) => {
-  return worker.category;
-});
-let uniquecategory = [...new Set(categorylist), "All"].sort();
+  return [...new Set(arr.map(e => e[grp])),'All'];
 
-let categoryOption = uniquecategory.map((category,index) => {
-  return <MenuItem key={index} value={category}>{category}</MenuItem>;
-});
+}
 
+ const   selectOptionFunc = (arr,val) => {
+    return  arr.map((val, index) => {
+    return (
+      <MenuItem key={index} value={val}>
+        {val}
+      </MenuItem>
+    );
+    });
+    }
 
+let uniquecategory = uniqueFilter(workersInfo,'category')
+let categoryOption = selectOptionFunc(uniquecategory,'category')
 
-let districtlist = workersInfo.map((worker) => {
-  return worker.district;
-});
-let uniquedistrict = [...new Set(districtlist), "All"].sort();
+let uniquedistrict = uniqueFilter(workersInfo,'district')
+let districtOption = selectOptionFunc(uniquedistrict,'district')
 
-let districtOption = uniquedistrict.map((district,index) => {
-  return <MenuItem key={index} value={district}>{district}</MenuItem>;
-});
-
-
-let municipalitylist = workersInfo.map((worker) => {
-  return worker.municipality;
-});
-let uniquemunicipality = [...new Set(municipalitylist), "All"].sort();
-
-let municipalityOption = uniquemunicipality.map((municipality,index) => {
-  return <MenuItem key={index} value={municipality}>{municipality}</MenuItem>;
-});
-
+let uniquemunicipality = uniqueFilter(workersInfo,'municipality')
+let municipalityOption = selectOptionFunc(uniquemunicipality,'municipality')
 
   let kilnlist = workersInfo.map((worker) => {
     return worker.kiln.name;
@@ -101,6 +96,19 @@ let municipalityOption = uniquemunicipality.map((municipality,index) => {
           <Grid item xs={12} sm={6} md={4}>
             <TextField
               fullWidth
+              label="Search by Code"
+              id="outlined-size-small"
+              name="searchbycode"
+              value={searchbycode}
+              onChange={ChangeOptionFilter}
+              variant="outlined"
+             
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={4}>
+            <TextField
+              fullWidth
               label="Search by Naike name"
               id="outlined-size-normal"
               name="searchbynaike_f_name"
@@ -113,7 +121,7 @@ let municipalityOption = uniquemunicipality.map((municipality,index) => {
         </Grid>
 
 
-        <Grid item xs={6} sm={4}  className='categoryMargin'>
+        <Grid item xs={6} sm={6} md={4}  className='categoryMargin'>
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel id="demo-simple-select-outlined-label">
                 By Category
@@ -133,7 +141,7 @@ let municipalityOption = uniquemunicipality.map((municipality,index) => {
           </Grid>
 
 
-          <Grid item xs={6} sm={4} md={3}>
+          <Grid item xs={6} sm={4} >
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel id="demo-simple-select-outlined-label">
                 By District
@@ -153,7 +161,7 @@ let municipalityOption = uniquemunicipality.map((municipality,index) => {
           </Grid>
 
 
-          <Grid item xs={6} sm={4} md={3}>
+          <Grid item xs={6} sm={4}>
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel id="demo-simple-select-outlined-label">
                 By Municipality
@@ -172,7 +180,7 @@ let municipalityOption = uniquemunicipality.map((municipality,index) => {
             </FormControl>
           </Grid>
 
-          <Grid item xs={6} sm={4} md={3}>
+          <Grid item xs={6} sm={4}>
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel id="demo-simple-select-outlined-label">
                 By Kiln
@@ -191,7 +199,7 @@ let municipalityOption = uniquemunicipality.map((municipality,index) => {
             </FormControl>
           </Grid>
 
-          <Grid item xs={6} sm={4} md={3}>
+          <Grid item xs={6} sm={4}>
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel id="demo-simple-select-outlined-label">
                 By Gender

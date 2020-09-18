@@ -46,8 +46,8 @@ class ExtendedUser(PermissionsMixin, AbstractBaseUser):
 
 
 class Kiln(models.Model):
-    name = models.CharField(max_length=100 ,default="ram")
-    address = models.CharField(max_length=100 ,default="ram")
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
     
 
     def __str__(self):
@@ -61,15 +61,19 @@ class Workers(models.Model):
         ('FEMALE', 'Female'),
         ('OTHERS', 'Others'),
     )
-    f_name = models.CharField(max_length=100 ,default="ram")
-    l_name = models.CharField(max_length=100 ,default="ram")
+    f_name = models.CharField(max_length=100)
+    l_name = models.CharField(max_length=100)
     address = models.CharField(max_length=100 ,blank=True,null=True)
-    naike_f_name = models.CharField(max_length=100,blank=True,null=True)
-    naike_l_name = models.CharField(max_length=100,blank=True,null=True)
+    naike_name = models.CharField(max_length=100,blank=True,null=True)
+    
     naike_phone = models.CharField(max_length=100,blank=True,null=True)
+    priority = models.CharField(max_length=100,blank=True,null=True)
+    org = models.CharField(max_length=100,blank=True,null=True)
+    duplicate = models.IntegerField(blank=True,null=True)
     
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, blank=True,null=True)
     age = models.CharField(max_length=100,blank=True,null=True)
+    code =  models.CharField(max_length=100,blank=True,null=False)
 
     country = models.CharField(max_length=100 ,blank=True,null=True)
     district = models.CharField(max_length=100 ,blank=True,null=True)
@@ -84,7 +88,8 @@ class Workers(models.Model):
 
 
 class ngos(models.Model):
-    name = models.CharField(max_length=100 ,blank=True,null=True)
+    name = models.CharField(max_length=100 ,blank=True,null=False)
+    uuid = models.CharField(max_length=2000, blank=True,null=False)
 
 
     

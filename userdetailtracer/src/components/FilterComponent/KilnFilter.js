@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   inputSection: {
-    width: "90%",
+    width: "95%",
     margin: "auto",
   },
 }));

@@ -258,8 +258,13 @@ font-family: 'Roboto', sans-serif;
 
 .paginateClass
 {
+  display: flex;
+  justify-content: space-between;
   text-align: center;
-  margin: 50px auto;
+  margin: 50px 30px 50px auto;
+  width: 64%;
+  
+
 }
 
 
@@ -268,6 +273,7 @@ font-family: 'Roboto', sans-serif;
  display: inline-block;
 
 }
+
 
 .ngoSection
 {
@@ -294,7 +300,7 @@ font-family: 'Roboto', sans-serif;
 /************* worker filter categoryinput */
 .categoryMargin
 {
-  margin-top: -7px!important;
+  /* margin-top: -7px!important; */
 }
 
 
@@ -304,6 +310,7 @@ font-family: 'Roboto', sans-serif;
 {
   padding-bottom: 50px;
 }
+
 
 
 
@@ -317,6 +324,224 @@ font-family: 'Roboto', sans-serif;
 }
 
 
-/* Spinner section *********/
+.summaryFilter
+{
+  
+  margin: 0 auto;
+  margin-top: 50px;
+}
 
+.summaryListInner
+{
+ 
+  margin: 50px auto;
+ 
+}
+
+.summarySection,.summaryNgoSection,.summaryKilnSection
+{
+ width: 70vw;
+  margin: 0 auto;
+  font-family: 'Roboto';
+}
+
+
+@media screen and (max-width:900px){
+
+  .summarySection,.summaryNgoSection,.summaryKilnSection
+  {
+   width: 90vw;
+  
+  }
+}
+
+
+
+
+
+
+@media screen and (max-width:600px)
+{
+  .AmountBar
+  {
+    font-size: 1rem!important;
+  }
+}
+
+.summarylistTotal
+{
+  /* border: 1px solid red; */
+  margin-left: 0!important;
+}
+
+.SummaryDropDown
+{
+  width: 70%;
+}
+
+
+.SelectedWorkers
+{
+  width: 95%;
+  margin: 0 auto!important;
+  margin-top: 30px!important;
+  /* padding: 0 15px; */
+  
+ 
+  
+}
+
+
+.sortedOutof
+{
+  color: green;
+}
+
+.sortedOutoflength
+{
+  color: rgb(220, 0, 78);
+}
+
+
+/**************tabs compart************** */
+
+
+.tabs-titles{
+  list-style: none;
+  width: 70vw;
+  margin: 0 auto!important;
+  display: flex;
+  justify-content: space-between;
+
+  
+}
+
+.tab-title{
+ 
+  padding:15px 10px;
+  color: black;
+  cursor: pointer;
+  margin-left:1px;
+  margin-top: 15px!important;
+  margin-bottom: 15px!important;
+  text-align: center;
+  font-size: 1.4rem!important;
+  width: 100%;
+}
+
+.tab-title--active {
+ border-bottom: 2px solid blue;
+  color: blue;
+}
+
+@media screen and (max-width:1000px){
+
+.tab-title{
+  font-size: 1.1rem!important;
+}
+
+}
+
+@media screen and (max-width:900px){
+
+  .Totalpaidamount
+  {
+        font-size: 1.2rem!important;
+  }
+  
+  }
+
+
+  @media screen and (max-width:600px){
+
+    .Totalpaidamount
+    {
+          font-size: 1rem!important;
+    }
+    .tab-title{
+      font-size: .9rem!important;
+    }
+    }
+
+
+    @media screen and (max-width:900px){
+
+      .tabs-titles{
+      
+        width: 90vw;
+      }
+    
+    }
+
+
+
+.workerList-Section,.kilnList-Section
+{
+  width: 90vw;
+  margin: 0 auto;
+ 
+}
+
+.ngolist-Section{
+  width: 90vw;
+  margin: 0 auto 50px;
+}
+
+
+
+
+.ngosummaryLink
+{
+  
+  text-align: right;
+  margin-bottom: 0;
+  margin-top: 30px;
+  display: flex;
+  justify-content: end;
+}
+
+.ngosummaryLink a h1
+{
+  margin-right: 0px!important;
+}
+
+.ngosummaryLink a
+{
+  text-decoration: none!important;
+}
+
+.ngosummarytext
+{
+  /* margin-right: 20px!important; */
+}
+
+
+.newSummary
+{
+  display: grid;
+  place-items: center;
+  width:50%;
+  margin: 2em auto;
+ 
+}
+
+@media screen and (max-width:900px){
+
+  .newSummary{
+  
+    width: 90vw;
+  }
+
+}
+
+.CsvBtnSec
+{
+  display: flex;
+}
+
+.csvbtn
+{
+  margin-top: 50px;
+  margin-right: 28px;
+}
 
