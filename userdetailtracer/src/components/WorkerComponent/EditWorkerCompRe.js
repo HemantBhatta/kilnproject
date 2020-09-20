@@ -77,7 +77,6 @@ state={
 
      SubmitHandler = (e) => {
         e.preventDefault();
-      // console.log(this.state.singleWorkerInfo)
           Axiosapi({
             method:'PUT',
             url:`workers/${this.state.singleWorkerInfo.id}`,
@@ -158,11 +157,11 @@ state={
                      
                       fullWidth
                       margin="normal"
-                      name="naike_f_name"
-                      value={this.state.singleWorkerInfo.naike_f_name}
+                      name="naike_name"
+                      value={this.state.singleWorkerInfo.naike_name}
                       onChange={this.InputHandler}
                       id="standard-basic"
-                      label="Enter naike_f_name"
+                      label="Enter naike_name"
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -175,11 +174,11 @@ state={
                     
                       fullWidth
                       margin="normal"
-                      name="naike_l_name"
-                      value={this.state.singleWorkerInfo.naike_l_name}
+                      name="country"
+                      value={this.state.singleWorkerInfo.country}
                       onChange={this.InputHandler}
                       id="standard-basic"
-                      label="Enter naike_l_name"
+                      label="Enter country"
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -191,7 +190,7 @@ state={
                   <Grid item xs={12} sm={6}>
                     <TextField
                       variant="outlined"
-                   
+                      required
                       fullWidth
                       margin="normal"
                       name="age"
@@ -264,11 +263,11 @@ state={
                     
                       fullWidth
                       margin="normal"
-                      name="workercategory"
-                      value={this.state.singleWorkerInfo.workercategory}
+                      name="category"
+                      value={this.state.singleWorkerInfo.category}
                       onChange={this.InputHandler}
                       id="standard-basic"
-                      label="Enter workercategory"
+                      label="Enter category"
                       InputLabelProps={{
                         shrink: true,
                       }}

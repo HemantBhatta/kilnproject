@@ -50,7 +50,6 @@ const WorkersList = () => {
   const { sortedWorkersInfo, isSuperUser, workersInfo,csvData,CsvWorkerDataFunc} = useContext(myContext);
  const workerscsvHeaders =  ['Id','First Name', 'Last Name','Naike Name','NaikePhone','Priority','Ngo','Duplicate','Gender','Age','Country','District','Municipality','Village','Ward','Phone','Category','Kiln Id','Children','Kiln','Kiln Address','Amount Paid','Amount Payer'] 
   const [currentPage, setCurrentPage] = useState(1);
-  // console.log(currentPage)
   const [workersPerPage] = useState(9);
   if(!sortedWorkersInfo)
   {
@@ -65,13 +64,11 @@ const WorkersList = () => {
   );
 
   let sortedworkersInfoComp = curretWorkers.map((worker) => {
-    // console.log(worker)
     return <WorkersListMap worker={worker} key={worker.id} />;
   });
 
 
   const paginate = (pageNumber) => {
-    // console.log(pageNumber)
     setCurrentPage(pageNumber);
   };
 

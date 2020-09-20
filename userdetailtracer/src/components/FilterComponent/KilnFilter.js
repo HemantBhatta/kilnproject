@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 const KilnFilter = () => {
   const classes = useStyles();
 
-  const {searchbykiln,searchbykilnlocation,ChangeOptionFilter} = useContext(myContext);
+  const {searchbykiln,ChangeOptionFilter} = useContext(myContext);
 
   return (
     <div>
@@ -39,18 +39,6 @@ const KilnFilter = () => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} >
-            <TextField
-              fullWidth
-              label="Search by Location"
-              id="outlined-size-normal"
-              name="searchbykilnlocation"
-              value={searchbykilnlocation}
-              onChange={ChangeOptionFilter}
-              variant="outlined"
-             
-            />
-          </Grid>
 
       
         </Grid>

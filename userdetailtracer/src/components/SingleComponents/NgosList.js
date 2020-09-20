@@ -24,13 +24,14 @@ class NgosList extends Component {
     componentDidMount()
     {
         Axiosapi.get('ngos')
-        .then(res=>{   
-              
+        .then(res=>{              
             this.setState({ngos:res.data})
         })
+        .catch(err=>console.log(err))
     }
     static contextType = myContext;
     render() {
+        const {isSuperUser} = this.context
         const {ngos} = this.state
         const isAlreadyAuthenticated = isAuthenticated();
 
@@ -50,24 +51,26 @@ class NgosList extends Component {
             </Card>
         })
 
-
         return (
             <div className='ngolist-Section'>
-                <div className='ngosummaryLink'>
-                <Link to="/summary" >
-              
-              <Typography
-                className="ngosummarytext"
-                color="primary"
-                component="h1"
-                variant="h6"
-              >
-               
-                Summary
-              </Typography>
-            </Link>
-              <ArrowRightAltIcon color="primary" fontSize="large" />
-                </div>
+               {
+                   isSuperUser() ? 
+                   <div className='ngosummaryLink'>
+                   <Link to="/summary" >
+                 
+                 <Typography
+                   className="ngosummarytext"
+                   color="primary"
+                   component="h1"
+                   variant="h6"
+                 >
+                  
+                   Summary
+                 </Typography>
+               </Link>
+                 <ArrowRightAltIcon color="primary" fontSize="large" />
+                   </div> : ''
+               }
                 { isAlreadyAuthenticated ? 
             <div className='ngoSection'>
                 <Title title='NgoList'/>

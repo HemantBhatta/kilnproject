@@ -8,8 +8,6 @@ class ContextProvider extends Component {
     workersInfo: [],
     sortedWorkersInfo: [],
     singleWorkerInfo: '',
-    sortedWorkersInfoSummary:[],
-    sortedKilnInfoSummary:[],
     editWorkerInfoId: '',
     kilnInfo: [],
     sortedkilnInfo: [],
@@ -26,7 +24,6 @@ class ContextProvider extends Component {
     searchbykilnname: '',
     mobileNav: false,
     searchbykiln: '',
-    searchbykilnlocation: '',
     searchbykilnowner: '',
     ModalStatus:false,
     ModalData:[],
@@ -34,15 +31,8 @@ class ContextProvider extends Component {
     csrftoken:'',
     user: null,
     offlineWorkers: {},
-    searchbydistrictsummary:'All',
-    searchbymunicipalitysummary:'All',
     moneypaidworker:'All',
-    TotalSummaryAmountPaid:0,
-    TotalSummaryByDistrict:[],
-    searchbykilnsummary:'All',
     moneypaidkiln:'All',
-    TotalSummaryByKiln:[],
-    TotalSummaryByNgo:[],
     InitialDataStatus:false,
     csvData:[],
     csvKilnData:[],
@@ -51,17 +41,19 @@ class ContextProvider extends Component {
 
   componentDidMount() {
     this.fetchAllData();
+   
   }
 
   //********Data Fetching**********/ 
 
   fetchAllData = () => {
-    if( localStorage.getItem('app-data')){
+  
+    if( localStorage.getItem('app-datam')){
       const values = JSON.parse(localStorage.getItem('app-data'))
       this.setState({
         workersInfo:values.workersInfo,
         sortedWorkersInfo:values.workersInfo,
-        sortedWorkersInfoSummary:values.workersInfo,
+       
         kilnInfo:values.kilnInfo,
         sortedkilnInfo:values.kilnInfo,
         offlineWorkers: values.offlineWorkers,
@@ -77,7 +69,7 @@ class ContextProvider extends Component {
     Promise.all([Axiosapi.get('workers'), Axiosapi.get('kiln'), Axiosapi.get('user')])
       .then(([workers, kilns, user]) => {
         this.hookState({ 
-          workersInfo: workers.data, sortedWorkersInfo: workers.data,sortedWorkersInfoSummary:workers.data,
+          workersInfo: workers.data, sortedWorkersInfo: workers.data,
           kilnInfo: kilns.data, sortedkilnInfo: kilns.data,
           user: user.data ,
           InitialDataStatus:true
@@ -87,7 +79,7 @@ class ContextProvider extends Component {
   }
 
   hookState = (state, cb) => {
-   
+  
     this.setState(state, cb);
     const {workersInfo, kilnInfo, user, offlineWorkers} = this.state;
    
@@ -106,7 +98,6 @@ class ContextProvider extends Component {
   }
 
   WorkerNewStatefunc =(newState)=> {
-    // console.log(newState,'ok')
     this.hookState({workersInfo:newState,sortedWorkersInfo:newState})
   }
 
@@ -121,7 +112,6 @@ class ContextProvider extends Component {
 
   WorkerEditPaymentFunc =(worker)=> {
     this.state.offlineWorkers[worker.id] = worker;
-    // console.log(this.state.offlineWorkers, 'hjofline');
     this.hookState({offlineWorkers: this.state.offlineWorkers});
   }
 
@@ -131,7 +121,6 @@ class ContextProvider extends Component {
   ChangeOptionFilter = (e) => {
     let value = e.target.value;
     let name = e.target.name;
-  // console.log(value,name)
     this.setState({ [name]: value }, () => {
       this.filterAllOptions();
       this.filterKilnData();
@@ -157,10 +146,8 @@ class ContextProvider extends Component {
     } = this.state;
 
     let tempWorkersInfo = [...workersInfo];
-  // console.log(workersInfo)
     if (searchbyworkername !== '') {
      const search = searchbyworkername.toLowerCase()
-    //  console.log(search,workersInfo)
       tempWorkersInfo = tempWorkersInfo.filter((worker) => {
         return worker.f_name.toLowerCase().includes(search);
       });
@@ -168,7 +155,6 @@ class ContextProvider extends Component {
 
     if (searchbycode !== '') {
       const search = searchbycode.toLowerCase()
-     //  console.log(search,workersInfo)
        tempWorkersInfo = tempWorkersInfo.filter((worker) => {
          return worker.code.toLowerCase().includes(search);
        });
@@ -177,7 +163,6 @@ class ContextProvider extends Component {
 
    if (searchbynaike_f_name !== '') {
      const search = searchbynaike_f_name.toLowerCase()
-    //  console.log(search,workersInfo)
       tempWorkersInfo = tempWorkersInfo.filter((worker) => {
         return worker.naike_name && worker.naike_name.toLowerCase().includes(search);
       });
@@ -232,7 +217,7 @@ class ContextProvider extends Component {
     const {
       kilnInfo,
       searchbykiln,
-      searchbykilnlocation,
+      
      
     } = this.state;
 
@@ -245,95 +230,18 @@ class ContextProvider extends Component {
       });
     }
 
-    if (searchbykilnlocation !== '') {
-      const search = searchbykilnlocation.toLowerCase()
-      tempkilnInfo = tempkilnInfo.filter((kiln) => {
-        return kiln.address.toLowerCase().includes(search);
-      });
-    }
+ 
 
     this.hookState({ sortedkilnInfo: tempkilnInfo },()=>this.CsvKilnDataFunc());
   };
 
-//********* SelectOption in filter workersummary******//
 
-  ChangeOptionFilterSummary = (e) => {
-    let value = e.target.value;
-    let name = e.target.name;
-
-    this.setState({ [name]: value }, () => {
-      this.filterAllOptionsSummary(); 
-    });
-  }
-
-//**********Filter func for workersummary*************//
-
-  filterAllOptionsSummary = () => {
-    const {searchbydistrictsummary,searchbymunicipalitysummary,
-      workersInfo,moneypaidworker} = this.state
-
-    let tempWorkersInfoSummary = [...workersInfo];
-
-    if (searchbydistrictsummary !== "All") {
-      const search = searchbydistrictsummary.toLowerCase()
-      tempWorkersInfoSummary = tempWorkersInfoSummary.filter((worker) => {
-        return worker.district.toLowerCase().includes(search);
-      });
-    }
-
-    if (searchbymunicipalitysummary !== "All") {
-      const search = searchbymunicipalitysummary.toLowerCase()
-      tempWorkersInfoSummary = tempWorkersInfoSummary.filter((worker) => {
-        return worker.municipality && worker.municipality.toLowerCase().includes(search);
-      });
-    }
-
-    if (moneypaidworker == "paid") {
-      tempWorkersInfoSummary = tempWorkersInfoSummary.filter((worker) => {
-       
-        return (worker.extra && (worker.extra.amount > 0|| worker.extra.amount !==''))     
-      });
-      
-    } else if(moneypaidworker == "unpaid"){
-     
-      tempWorkersInfoSummary = tempWorkersInfoSummary.filter((worker) => {
-        return (worker.extra == null)     
-      });
-    
-    }else{
-      tempWorkersInfoSummary = tempWorkersInfoSummary   
-    }
-
-    this.hookState({ sortedWorkersInfoSummary: tempWorkersInfoSummary },()=>this.calculateTotalPaidSummary());
-
-  }
-
-//***********Calculte Total PaidAmount  func**********//
-
-  calculateTotalPaidSummary = () => {
-    let totalprice = this.state.sortedWorkersInfoSummary.reduce((acc, item) => {
-      if(item.extra !== null){
-        acc = acc + parseInt(item.extra.amount)
-        return acc
-      }
-      return acc;
-    }, 0)
-  
-    this.setState({ TotalSummaryAmountPaid: totalprice },()=>this.PaidUnpaidSummary())
-}
-
-//**********Convert Object to desired Format in PaidUnpaid********//
 
 ReduceKeyValFunc = (s) => {
   let data = {}
  
      for(var [k,v] of Object.entries(s))
            {
-
-
-         
-
-
              const amount = v.reduce((acc,cur)=>{
                if(cur.extra !== null){
                  acc = acc + parseInt(cur.extra.amount)
@@ -350,57 +258,9 @@ ReduceKeyValFunc = (s) => {
              data = {...data, ...xy}
              
              }
-            //  console.log(data)
      return data
 }
 
-//**********Paid and Unpaid List in Summary***********//
-
-PaidUnpaidSummary = () => {
-   const {sortedWorkersInfoSummary} =  this.state
-
-  const s = sortedWorkersInfoSummary.reduce((acc, cur) => {
-    if( acc[ cur.district ] ) acc[ cur.district ].push(cur);
-    else acc[cur.district] = [cur];
-    return acc;
-  }, {})
-
-  let districtdata =  this.ReduceKeyValFunc(s); 
-  // console.log(districtdata)
-
-  // districtdata = Object.values(districtdata).sort((a,b)=>{return (b.totalamount-a.totalamount)})
-  // console.log(districtdata)
-  this.setState({TotalSummaryByDistrict:districtdata})   
-}
-
-PaidUnpaidKilnSummary = () => {
-  const {sortedWorkersInfoSummary} =  this.state
-
- const s = sortedWorkersInfoSummary.reduce((acc, cur) => {
-   if( acc[ cur.kiln.name ] ) acc[ cur.kiln.name ].push(cur);
-   else acc[cur.kiln.name] = [cur];
-   return acc;
- }, {})
-
-  const kilndata =  this.ReduceKeyValFunc(s);
-  this.setState({TotalSummaryByKiln:kilndata})
-}
-
-PaidUnpaidNgoSummary = () => {
-  const {sortedWorkersInfoSummary} =  this.state
-  // console.log(sortedWorkersInfoSummary)
- const s = sortedWorkersInfoSummary.reduce((acc, cur) => {
-   if( acc[ cur.org ] ) acc[ cur.org ].push(cur);
-   else acc[cur.org] = [cur];
-   return acc;
- }, {})
-
-//  console.log(s)
-
-  const ngodata =  this.ReduceKeyValFunc(s);
-  // console.log(ngodata)
-  this.setState({TotalSummaryByNgo:ngodata})
-}
 
 clone = (v) => {
   return JSON.parse(JSON.stringify(v));
@@ -408,16 +268,10 @@ clone = (v) => {
 
 CsvWorkerDataFunc = () => {
   const {sortedWorkersInfo} =  this.state
-  
-
 
   const data = this.clone(sortedWorkersInfo).map(item=>{
-   
-   
-
       item.kilnname = item.kiln.name;
-      item.kilnaddress = item.kiln.address  ;      
-  
+      item.kilnaddress = item.kiln.address  ;     
 
     if(item.extra !== null){
       item.amountpaid = item.extra.payment.amount;
@@ -425,20 +279,11 @@ CsvWorkerDataFunc = () => {
     }
 
     if(item.children !== null){
-      // item.childrenname = item.children['Full Name'];
-      // item.childrenage = item.children.Age;
-      // item.childrengender = item.children.Gender;
       item.children = item.children.map(e=>e.join('/')).join(',')
-
     }
-
-    // delete item['children']
-    // delete item['extra']
     delete item['kiln']
-
    return item
   })
-
 
 this.setState({csvData:data})
 }
@@ -508,7 +353,7 @@ CsvKilnDataFunc = () => {
         this.hookState({alertData:{type: 'success', msg: 'Kiln deleted successfully'}})
         let filteredKiln = this.filterById(id,this.state.kilnInfo)
         this.hookState({kilnInfo:filteredKiln, sortedkilnInfo:filteredKiln, searchbykiln: '',
-        searchbykilnlocation: '',})
+        })
        
      
         }
@@ -519,7 +364,7 @@ CsvKilnDataFunc = () => {
   };
 
   isSuperUser = () => {
-      return this.state.user && this.state.user.is_superuser;
+      return navigator.onLine && this.state.user && this.state.user.is_superuser;
   };
 
   OpenModal = (id) => {
@@ -541,7 +386,6 @@ CsvKilnDataFunc = () => {
 
 
   render() {
-    // console.log(this.state.user)
     return (
       <myContext.Provider
         value={{
@@ -562,11 +406,6 @@ CsvKilnDataFunc = () => {
           AlertFunc:this.AlertFunc,
           isSuperUser: this.isSuperUser,
           WorkerEditPaymentFunc: this.WorkerEditPaymentFunc,
-          ChangeOptionFilterSummary:this.ChangeOptionFilterSummary,
-          filterAllOptionsSummary:this.filterAllOptionsSummary,
-          calculateTotalPaidSummary:this.calculateTotalPaidSummary,
-          PaidUnpaidKilnSummary:this.PaidUnpaidKilnSummary,
-          PaidUnpaidNgoSummary:this.PaidUnpaidNgoSummary,
           CsvWorkerDataFunc:this.CsvWorkerDataFunc,
           CsvKilnDataFunc:this.CsvKilnDataFunc
         }}

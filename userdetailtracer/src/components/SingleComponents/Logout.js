@@ -4,6 +4,7 @@ import {Button,Box} from '@material-ui/core'
 
 const Logout = () => {
   localStorage.removeItem("item");
+  localStorage.removeItem("app-data");
 
   return (
     <div className="logoutSection">

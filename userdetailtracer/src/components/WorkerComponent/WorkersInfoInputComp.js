@@ -113,25 +113,10 @@ const WorkersInfoInputComp = ({
               />
             </Grid>
 
-            {/* <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                name="naike_l_name"
-                value={valuea.naike_l_name}
-                onChange={InputHandler}
-                id="standard-basic"
-                label="Enter Naike last name"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid> */}
-
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
+                required
                 fullWidth
                 margin="normal"
                 name="age"
@@ -214,8 +199,8 @@ const WorkersInfoInputComp = ({
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                name="workercategory"
-                value={valuea.workercategory}
+                name="category"
+                value={valuea.category}
                 onChange={InputHandler}
                 id="standard-basic"
                 label="Enter Category"
@@ -244,6 +229,7 @@ const WorkersInfoInputComp = ({
             <Grid item xs={12} sm={12}>
               <FormControl
                 variant="outlined"
+                required
                 fullWidth
                 className={classes.formControl}
               >
@@ -267,6 +253,8 @@ const WorkersInfoInputComp = ({
                 </Select>
               </FormControl>
             </Grid>
+
+
 
             <Grid item xs={12} sm={12}>
               <FormControl

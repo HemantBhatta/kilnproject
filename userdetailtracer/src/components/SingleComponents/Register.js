@@ -202,9 +202,11 @@ class Register extends React.Component {
               </form>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="#login" variant="body2">
+                  <Typography>
+                  <Link href="#login" variant="body2" className='alreadyLogin'>
                     Already have an account? Login
                   </Link>
+                  </Typography>
                 </Grid>
               </Grid>
             </div>

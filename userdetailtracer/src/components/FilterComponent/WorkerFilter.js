@@ -37,7 +37,6 @@ const WorkerFilter = () => {
   
   } = useContext(myContext);
 
-// console.log(workersInfo)
  const uniqueFilter = (arr,grp) => {
 
   return [...new Set(arr.map(e => e[grp])),'All'];

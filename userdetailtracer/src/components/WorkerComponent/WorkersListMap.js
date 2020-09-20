@@ -26,7 +26,6 @@ const useStyles = makeStyles({
   },
 });
 const WorkersListMap = ({ worker }) => {
-  // console.log(worker)
   const { deleteWorker, OpenModal, isSuperUser ,user} = useContext(myContext);
   const classes = useStyles();
 
@@ -79,7 +78,6 @@ const WorkersListMap = ({ worker }) => {
           </Typography>
           <Typography className={classes.pos} variant="body1" component="p">
             <span>Children :</span>
-            {/* {worker.children} */}
             {worker.children ? (
               worker.children.map((e,i)=><span key={i} style={{ marginLeft:'10px', borderBottom: '1px solid' }} >{e.join('/')}</span>)
             ) : null}

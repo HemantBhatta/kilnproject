@@ -545,3 +545,13 @@ font-family: 'Roboto', sans-serif;
   margin-right: 28px;
 }
 
+
+.summaryTotalamount
+{
+  font-size: 1.3rem!important;
+}
+
+.alreadyLogin
+{
+  text-decoration: none;
+}

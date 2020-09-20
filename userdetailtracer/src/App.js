@@ -18,11 +18,8 @@ import EditWorkerCompRe from "./components/WorkerComponent/EditWorkerCompRe";
 
 import KilnInfoInput from "./components/KilnComponent/KilnInfoInput";
 import KilnList from "./components/KilnComponent/KilnList";
-import SummaryList from './components/SummaryComponent/SummaryList'
-import SummaryKilnList from './components/SummaryComponent/SummaryKilnList'
-import SummaryNgoList from './components/SummaryComponent/SummaryNgoList'
+
 import NgosList from "./components/SingleComponents/NgosList";
-import TabsComp from './components/SingleComponents/TabsComp'
 import NewSummary from './components/SingleComponents/NewSummary'
 
 import { Route, Switch, HashRouter } from "react-router-dom";
@@ -92,7 +89,6 @@ function App() {
           <Route exact path="/kilnlist" component={KilnList} />
           <Route exact path="/csv" component={Mycsv} />
           <Route exact path="/summary" component={NewSummary} />
-          {/* <Route exact path="/summary" render={props=>(<TabsComp data={data} {...props}/>)} /> */}
           {super_user_routes}
           <Route component={Error} />
         </Switch>
@@ -103,20 +99,5 @@ function App() {
 }
 
 
-var data = [
-  {id : '1',
-   tabTitle: "Workers Summary",
-   tabContent: <SummaryList/>
-  },
-  {id : '2',
-   tabTitle: "Kiln Summary",
-   tabContent: <SummaryKilnList/>
-  },
-  {id : '3',
-   tabTitle: "Ngo Summary",
-   tabContent: <SummaryNgoList/>
-  }
- 
-]
 
 export default App;

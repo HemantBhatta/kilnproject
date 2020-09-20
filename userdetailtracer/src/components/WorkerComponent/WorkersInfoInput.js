@@ -32,7 +32,7 @@ const WorkersInfoInput = () => {
     district: "",
     municipality: "",
     ward: "",
-    workercategory: "",
+    category: "",
     phone: "",
     salary: "",
     kiln_id: "",
@@ -64,7 +64,6 @@ const WorkersInfoInput = () => {
   };
 
   useEffect(() => {
-    console.log(workerInfoValue)
     WorkerNewStatefunc([...workerInfoValue]);
   }, [workerInfoValue]);
 
@@ -72,9 +71,26 @@ const WorkersInfoInput = () => {
     AlertFunc(alertInfo);
   }, [alertInfo]);
 
+  const genCode = (valuea, codes) => {
+    const code = `${valuea.f_name.substr(0, 2)}${valuea.l_name.substr(0, 2)}-${valuea.gender[0]}-${valuea.age}`.toUpperCase();
+    let c = code;
+    let i = 1;
+    while( codes[c] ){
+      c = `${code}-${i}`;
+      i++;
+    }
+    return c;
+  };
+
   const SubmitHandler = (e) => {
     e.preventDefault();
 
+    const codes = workerInfoValue.reduce((acc,curr)=>{
+      acc[curr.code] = true;
+      return acc;
+    }, {});
+    valuea.code =  genCode(valuea, codes);
+    
     Axiosapi({
       method: "POST",
       url: "workers/",
