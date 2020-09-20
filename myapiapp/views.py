@@ -58,7 +58,7 @@ def user(request):
 def workers_list(request):
     if request.method == 'GET':
         #return Response(model_to_dict(request.user))
-        users =  Workers.objects.values()[500:1000]
+        users =  Workers.objects.values()
        
         
         kilns = Kiln.objects
