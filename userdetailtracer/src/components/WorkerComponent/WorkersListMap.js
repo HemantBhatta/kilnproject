@@ -89,7 +89,7 @@ const WorkersListMap = ({ worker }) => {
             {worker.extra && worker.extra.payment? (
               <div style={{display:"inline"}}>
                 <strong>{worker.extra.payment.amountpayer.username}</strong> from 
-               <strong> {worker.extra.payment.amountpayer.ngo.name}</strong>
+               <strong> {worker.extra.payment.amountpayer.ngo.name}</strong> on {worker.extra.payment.timeofpay}
               </div>
             ) : 'None'}
           </Typography>
@@ -98,7 +98,7 @@ const WorkersListMap = ({ worker }) => {
             <span>Paid Amount:  </span>
 
             {worker.extra && worker.extra.payment ? (
-              <Typography variant="subtitle2" display="inline">Rs.{worker.extra.payment.amount}</Typography>
+              <Typography variant="subtitle2" display="inline">Rs.{worker.extra.payment.amount} </Typography>
             ) : 'Not Paid'}
           </Typography>
 

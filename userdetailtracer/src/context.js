@@ -22,6 +22,7 @@ class ContextProvider extends Component {
     searchbyworkercategory: 'All',
     searchbynaike_f_name: '',
     searchbykilnname: '',
+    searchbypaidstatus:'All',
     mobileNav: false,
     searchbykiln: '',
     searchbykilnowner: '',
@@ -121,6 +122,7 @@ class ContextProvider extends Component {
   ChangeOptionFilter = (e) => {
     let value = e.target.value;
     let name = e.target.name;
+    console.log(name,value)
     this.setState({ [name]: value }, () => {
       this.filterAllOptions();
       this.filterKilnData();
@@ -141,10 +143,11 @@ class ContextProvider extends Component {
       searchbymunicipality,   
       searchbyworkercategory,
       searchbynaike_f_name,
-      searchbycode
+      searchbycode,
+      searchbypaidstatus
       
     } = this.state;
-
+console.log(workersInfo)
     let tempWorkersInfo = [...workersInfo];
     if (searchbyworkername !== '') {
      const search = searchbyworkername.toLowerCase()
@@ -207,6 +210,22 @@ class ContextProvider extends Component {
         return worker.kiln.name.toLowerCase() === search;
       });
     } 
+
+
+    if (searchbypaidstatus == "paid") {
+      tempWorkersInfo = tempWorkersInfo.filter((worker) => {
+        return (worker.extra && (worker.extra.payment || worker.extra.payment.amount > 0))     
+      });
+    } 
+    else if(searchbypaidstatus == "unpaid"){
+      tempWorkersInfo = tempWorkersInfo.filter((worker) => {
+        return worker.extra == null
+      });
+    }
+    else {
+      tempWorkersInfo = tempWorkersInfo;
+    }
+
     
     this.hookState({ sortedWorkersInfo: tempWorkersInfo },()=>{this.CsvWorkerDataFunc()});
   };

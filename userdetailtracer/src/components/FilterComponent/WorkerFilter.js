@@ -34,6 +34,7 @@ const WorkerFilter = () => {
     searchbymunicipality,
     searchbyworkercategory,
     searchbynaike_f_name,
+    searchbypaidstatus
   
   } = useContext(myContext);
 
@@ -218,6 +219,30 @@ let municipalityOption = selectOptionFunc(uniquemunicipality,'municipality')
               </Select>
             </FormControl>
           </Grid>
+
+          <Grid item xs={6} sm={4}>
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel id="demo-simple-select-outlined-label">
+                Paid Status
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                name="searchbypaidstatus"
+                value={searchbypaidstatus}
+                onChange={ChangeOptionFilter}
+                label="Paid Status"
+              >
+                <MenuItem value="All">All</MenuItem>
+                <MenuItem value="paid">Paid</MenuItem>
+                <MenuItem value="unpaid">Unpaid</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+
+
+
         </Grid>
       </div>
     </div>
