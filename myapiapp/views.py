@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticated  ,AllowAny
 from .serializers import UserSerializer
 from rest_framework.exceptions import PermissionDenied
 import json
+from django.db import connection
 
 
 import random
@@ -191,5 +192,31 @@ def ngos_list(request):
         ngoss = ngos.objects.all()
         serializer = NgosSerializer(ngoss,many=True)
         return Response(serializer.data)
+
+def cc(data):
+    data['kiln'] = data['kiln_id']
+    data['children'] = json.dumps(data['children'])
+    data['extra'] = json.dumps(data['extra'])
+    del data['kiln_id']
+    return data
+
+@api_view(['POST'])
+def sync_payments(request):
+    data = [cc(d) for d in request.data]
+    #return Response( Workers.objects.model._meta.db_table )
+    
+    with connection.cursor() as cursor:
+        for d in data:
+            cursor.execute("UPDATE myapiapp_workers SET extra = %s WHERE id = %s", [d['extra'], d['id']])
+    
+    return Response(True)
+
+# 
+
+
+
+
+
+
 
 

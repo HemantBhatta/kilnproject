@@ -35,7 +35,7 @@ import { myContext } from "./context";
     };
 
 function App() {
-  const { alertData, isSuperUser, AlertFunc, user } = useContext(myContext);
+  const { alertData, isSuperUser, AlertFunc, user, ModalData } = useContext(myContext);
   const isAlreadyAuthenticated = isAuthenticated();
 
   if(isAlreadyAuthenticated){
@@ -92,7 +92,7 @@ function App() {
           {super_user_routes}
           <Route component={Error} />
         </Switch>
-        <ModalPayment />
+        {ModalData.length ? <ModalPayment/> : null}
       </HashRouter>
     </div>
   );

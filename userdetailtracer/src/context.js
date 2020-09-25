@@ -45,11 +45,45 @@ class ContextProvider extends Component {
    
   }
 
+
+  syncPayments = () => {
+    Axiosapi({
+      method:'POST',
+      url:`sync-payments/`,
+      data:Object.values(this.state.offlineWorkers)
+      
+    }).then(res=>{
+      if (res.status === 200 && res.statusText === "OK") {
+          this.hookState({offlineWorkers: {}});
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
+  cancelPayment = (worker) =>{
+    worker.extra = null;
+    Axiosapi({
+      method:'PUT',
+      url:`workers/${worker.id}`,
+      data:worker
+    })
+    .then(res=>{
+      if (res.status === 200 && res.statusText === "OK") {
+        this.WorkerEditStatefunc(worker);
+      }
+      })
+      .catch((err) => {
+        this.setState({})
+    });
+}
+
   //********Data Fetching**********/ 
 
   fetchAllData = () => {
   
-    if( localStorage.getItem('app-datam')){
+    if( localStorage.getItem('app-data')){
       const values = JSON.parse(localStorage.getItem('app-data'))
       this.setState({
         workersInfo:values.workersInfo,
@@ -60,12 +94,15 @@ class ContextProvider extends Component {
         offlineWorkers: values.offlineWorkers,
         user:values.user,
         InitialDataStatus:true
+      },()=>{
+        if( navigator.onLine && Object.keys(values.offlineWorkers).length ){
+          this.syncPayments()
+          //console.log( Object.values(values.offlineWorkers) );
+          //this.hookState({offlineWorkers: {}});
+        }
       });
 
-      if( Object.keys(values.offlineWorkers).length ){
-        console.log( Object.values(values.offlineWorkers) );
-        //this.hookState({offlineWorkers: {}});
-      }
+     
     }  else {
     Promise.all([Axiosapi.get('workers'), Axiosapi.get('kiln'), Axiosapi.get('user')])
       .then(([workers, kilns, user]) => {
@@ -122,7 +159,6 @@ class ContextProvider extends Component {
   ChangeOptionFilter = (e) => {
     let value = e.target.value;
     let name = e.target.name;
-    console.log(name,value)
     this.setState({ [name]: value }, () => {
       this.filterAllOptions();
       this.filterKilnData();
@@ -147,7 +183,6 @@ class ContextProvider extends Component {
       searchbypaidstatus
       
     } = this.state;
-console.log(workersInfo)
     let tempWorkersInfo = [...workersInfo];
     if (searchbyworkername !== '') {
      const search = searchbyworkername.toLowerCase()
@@ -387,17 +422,29 @@ CsvKilnDataFunc = () => {
   };
 
   OpenModal = (id) => {
-        
           let modaldata =this.state.workersInfo.filter(worker=>{
             return worker.id === id
           })
         
-          this.hookState({ModalStatus:true,ModalData:modaldata})
+          this.setState({ModalStatus:true,ModalData:modaldata},()=>this.sendModalData())
   }
+
+  sendModalData = ()=>{
+    const data = this.state.ModalData
+    return data
+
+  }
+
+
+
 
   CloseModal = (id) => {
     this.hookState({ModalStatus:false})
+
   }
+
+
+
 
   AlertFunc = (res) => {
     this.hookState({alertData:res})
@@ -426,7 +473,9 @@ CsvKilnDataFunc = () => {
           isSuperUser: this.isSuperUser,
           WorkerEditPaymentFunc: this.WorkerEditPaymentFunc,
           CsvWorkerDataFunc:this.CsvWorkerDataFunc,
-          CsvKilnDataFunc:this.CsvKilnDataFunc
+          CsvKilnDataFunc:this.CsvKilnDataFunc,
+          cancelPayment:this.cancelPayment,
+          sendModalData:this.sendModalData
         }}
       >
         {this.props.children}

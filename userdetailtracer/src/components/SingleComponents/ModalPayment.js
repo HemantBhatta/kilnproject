@@ -3,21 +3,41 @@ import { TextField, Container, Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { myContext } from "../../context";
 import Axiosapi from './Axiosapi'
+import { v4 as uuidv4 } from 'uuid';
+
+const amounts  = {
+  Fireman:5650,
+  Molder:7750,
+  Transporter:7400,
+  Others:5150
+};
+
+const dAmount = (ModalData) => {
+  if( ModalData.length ){
+    const amount = ModalData[0].extra && ModalData[0].extra.payment ?
+       ModalData[0].extra.payment.amount : 
+       amounts[ModalData[0].category];
+      return amount;
+  }
+  return 0;
+};
 
 class ModalPayment extends React.Component {
   state = {
-    valuea:this.context.ModalData
-    ,
-    paymentdat: {
-      amount: "",
+      valuea:this.context.sendModalData(),
+
+      paymentdat: {
+      amount:dAmount(this.context.ModalData),
       timeofpay: "",
       amountpayer:this.context.user && this.context.user.username
-    },
+    }
+
   };
+
 
   handleChangeAmount = (e) => {
           const amount = e.target.value     
-          this.setState({paymentdat:{...this.state.paymentdat,amount:amount,timeofpay:new Date().toLocaleString()}})
+          this.setState({paymentdat:{...this.state.paymentdat,amount:amount }})
   };
 
   setUpdatedPayment = (worker) => {
@@ -31,13 +51,13 @@ class ModalPayment extends React.Component {
     if (!worker.extra){
       worker.extra = {}
     }
-    worker.extra.payment = {...this.state.paymentdat,amountpayer:this.context.user}
+    worker.extra.payment = {...this.state.paymentdat,amountpayer:this.context.user,timeofpay:new Date().toLocaleString(),pay_id:uuidv4()}
     const ModalDataId = this.context.ModalData.map(data=>{
       return data.id
     })
 
 
-    if(1 || navigator.onLine ){
+    if(navigator.onLine ){
 
       Axiosapi({
         method:'PUT',
@@ -61,16 +81,22 @@ class ModalPayment extends React.Component {
    }
 
 
-
+this.setState({valuea:[]})
   };
 
   
 
+    // componentDidUpdate(prevProps, prevState) {
+    //   if (prevState.valuea !== this.state.valuea) {
+    //     const data = this.context.sendModalData()
+    //     console.log(data)
+    //   }
+    // }
+
   
   static contextType = myContext;
   render() {
-    
-    const { CloseModal, ModalStatus, ModalData, user } = this.context;
+    const { CloseModal, ModalStatus, ModalData, user,sendModalData } = this.context;
    
     return (
       <div className={ModalStatus ? "modalOverlay" : "hideModal"}>

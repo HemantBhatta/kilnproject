@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   },
 });
 const WorkersListMap = ({ worker }) => {
-  const { deleteWorker, OpenModal, isSuperUser ,user} = useContext(myContext);
+  const { deleteWorker, OpenModal, isSuperUser ,user,cancelPayment} = useContext(myContext);
   const classes = useStyles();
 
   const scrollToElement = (element) => {
@@ -36,7 +36,6 @@ const WorkersListMap = ({ worker }) => {
       smooth: true,
     });
   };
-
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card className={classes.root}>
@@ -142,7 +141,17 @@ const WorkersListMap = ({ worker }) => {
               Payment
             </Button>
           </span>
-            : ''
+             : 
+             <span>
+             <Button
+               onClick={() => cancelPayment(worker)}
+               variant="contained"
+               color="secondary"
+               className={classes.buttonMargin}
+             >
+               Cancel
+             </Button>
+           </span>
 } 
         </CardContent>
       </Card>
