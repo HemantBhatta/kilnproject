@@ -36,7 +36,7 @@ def manifestc(request):
     return render(request,'manifest.json', content_type = 'application/json')
 
 def cachemanifest(request):
-    return render(request,'precache-manifest.de8575430b071d78807a040adec899a0.js', content_type = 'application/javascript')
+    return render(request,request.path.lstrip('/'), content_type = 'application/javascript')
 
 
 urlpatterns = [

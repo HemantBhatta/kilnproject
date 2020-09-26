@@ -125,6 +125,7 @@ class ContextProvider extends Component {
   
     this.setState(state, cb);
     const {workersInfo, kilnInfo, user, offlineWorkers,ngos} = this.state;
+  
    
     localStorage.setItem('app-data', JSON.stringify({workersInfo, kilnInfo, user, offlineWorkers,ngos}));
     
