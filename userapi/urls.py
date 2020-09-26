@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path,include,re_path
 
 from rest_framework.authtoken.views import obtain_auth_token
 from django.shortcuts import render
@@ -29,6 +29,15 @@ def index(request):
 #     return 'L'
 #     return Response(['Hello'])
 
+def serviceworker(request):
+    return render(request,'service-worker.js', content_type = 'application/javascript')
+
+def manifestc(request):
+    return render(request,'manifest.json', content_type = 'application/json')
+
+def cachemanifest(request):
+    return render(request,'precache-manifest.de8575430b071d78807a040adec899a0.js', content_type = 'application/javascript')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,5 +45,9 @@ urlpatterns = [
     path('api/', include('myapiapp.urls')),
    
     path('auth/',obtain_auth_token),
-    path('', index)
+    path('service-worker.js',serviceworker),
+    path('manifest.json',manifestc),
+    re_path(r'precache-manifest.*',cachemanifest),
+    path('index.html', index),
+    path('',index)
 ]

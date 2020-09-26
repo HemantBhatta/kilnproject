@@ -24,7 +24,7 @@ const dAmount = (ModalData) => {
 
 class ModalPayment extends React.Component {
   state = {
-      valuea:this.context.sendModalData(),
+      valuea:this.context.ModalData,
 
       paymentdat: {
       amount:dAmount(this.context.ModalData),
@@ -81,7 +81,6 @@ class ModalPayment extends React.Component {
    }
 
 
-this.setState({valuea:[]})
   };
 
   

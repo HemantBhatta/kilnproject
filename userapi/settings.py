@@ -25,7 +25,7 @@ SECRET_KEY = '=v_#_05&um%em%k2593sr!mxxn1#$1w7vpv6*4g3_@fogp*nqb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['kilnapps.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['kilnapps.herokuapp.com','localhost']
 
 
 # Application definition
