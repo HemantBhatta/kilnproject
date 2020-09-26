@@ -18,20 +18,12 @@ class NgosList extends Component {
 
    
     state={
-        ngos :[],
+        ngos :this.context.ngos,
     }
 
-    componentDidMount()
-    {
-        Axiosapi.get('ngos')
-        .then(res=>{              
-            this.setState({ngos:res.data})
-        })
-        .catch(err=>console.log(err))
-    }
     static contextType = myContext;
     render() {
-        const {isSuperUser} = this.context
+        const {isSuperUserSummary} = this.context
         const {ngos} = this.state
         const isAlreadyAuthenticated = isAuthenticated();
 
@@ -54,7 +46,7 @@ class NgosList extends Component {
         return (
             <div className='ngolist-Section'>
                {
-                   isSuperUser() ? 
+                   isSuperUserSummary() ? 
                    <div className='ngosummaryLink'>
                    <Link to="/summary" >
                  

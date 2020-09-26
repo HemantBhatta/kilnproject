@@ -49,7 +49,7 @@ const KilnList = () =>  {
     const classes = useStyles()
     const isAlreadyAuthenticated = isAuthenticated();
 
-    const {sortedkilnInfo,isSuperUser,kilnInfo} = useContext(myContext)
+    const {sortedkilnInfo,isSuperUserSummary,kilnInfo} = useContext(myContext)
     const [currentPage,setCurrentPage] = useState(1)
     const [kilnsPerPage] = useState(9)
     if(!sortedkilnInfo)
@@ -74,7 +74,7 @@ const KilnList = () =>  {
 
      {isAlreadyAuthenticated ? 
       <div>
-{ isSuperUser() ? 
+{ isSuperUserSummary() ? 
         <span className={classes.addIcon}>
           <Link to="/kiln" className={classes.AddIconLink}>
             <AddCircleIcon color="primary" fontSize="large" />

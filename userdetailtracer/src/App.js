@@ -21,6 +21,7 @@ import KilnList from "./components/KilnComponent/KilnList";
 
 import NgosList from "./components/SingleComponents/NgosList";
 import NewSummary from './components/SingleComponents/NewSummary'
+import LoadingScreen from './components/SingleComponents/LoadingScreen'
 
 import { Route, Switch, HashRouter } from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
@@ -35,7 +36,7 @@ import { myContext } from "./context";
     };
 
 function App() {
-  const { alertData, isSuperUser, AlertFunc, user, ModalData } = useContext(myContext);
+  const { alertData, isSuperUser, AlertFunc, user, ModalData,syncing } = useContext(myContext);
   const isAlreadyAuthenticated = isAuthenticated();
 
   if(isAlreadyAuthenticated){
@@ -68,7 +69,6 @@ function App() {
     <Route exact path="/workers/:id/" component={EditWorkerCompRe} />
   ) : null;
 
-
   return (
     <div className="App">
       <HashRouter>
@@ -92,7 +92,8 @@ function App() {
           {super_user_routes}
           <Route component={Error} />
         </Switch>
-        {ModalData.length ? <ModalPayment/> : null}
+        {ModalData ? <ModalPayment/> : null}
+       {syncing ?  <LoadingScreen/> : null }
       </HashRouter>
     </div>
   );

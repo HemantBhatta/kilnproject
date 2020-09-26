@@ -26,8 +26,7 @@ class ContextProvider extends Component {
     mobileNav: false,
     searchbykiln: '',
     searchbykilnowner: '',
-    ModalStatus:false,
-    ModalData:[],
+    ModalData:null,
     alertData: null,
     csrftoken:'',
     user: null,
@@ -37,6 +36,8 @@ class ContextProvider extends Component {
     InitialDataStatus:false,
     csvData:[],
     csvKilnData:[],
+    ngos:[],
+    syncing:false
 
   };
 
@@ -47,6 +48,7 @@ class ContextProvider extends Component {
 
 
   syncPayments = () => {
+    this.setState({syncing:true})
     Axiosapi({
       method:'POST',
       url:`sync-payments/`,
@@ -55,10 +57,12 @@ class ContextProvider extends Component {
     }).then(res=>{
       if (res.status === 200 && res.statusText === "OK") {
           this.hookState({offlineWorkers: {}});
-      }
+          this.setState({syncing:false})
+        }
     })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
+      this.setState({syncing:false})
     })
   }
 
@@ -82,7 +86,6 @@ class ContextProvider extends Component {
   //********Data Fetching**********/ 
 
   fetchAllData = () => {
-  
     if( localStorage.getItem('app-data')){
       const values = JSON.parse(localStorage.getItem('app-data'))
       this.setState({
@@ -93,6 +96,7 @@ class ContextProvider extends Component {
         sortedkilnInfo:values.kilnInfo,
         offlineWorkers: values.offlineWorkers,
         user:values.user,
+        ngos:values.ngos,
         InitialDataStatus:true
       },()=>{
         if( navigator.onLine && Object.keys(values.offlineWorkers).length ){
@@ -104,13 +108,14 @@ class ContextProvider extends Component {
 
      
     }  else {
-    Promise.all([Axiosapi.get('workers'), Axiosapi.get('kiln'), Axiosapi.get('user')])
-      .then(([workers, kilns, user]) => {
+    Promise.all([Axiosapi.get('workers'), Axiosapi.get('kiln'), Axiosapi.get('user'),Axiosapi.get('ngos')])
+      .then(([workers, kilns, user,ngos]) => {
         this.hookState({ 
           workersInfo: workers.data, sortedWorkersInfo: workers.data,
           kilnInfo: kilns.data, sortedkilnInfo: kilns.data,
           user: user.data ,
-          InitialDataStatus:true
+          InitialDataStatus:true,
+          ngos:ngos.data
         })
       }).catch(er => console.log(er))
     }
@@ -119,9 +124,9 @@ class ContextProvider extends Component {
   hookState = (state, cb) => {
   
     this.setState(state, cb);
-    const {workersInfo, kilnInfo, user, offlineWorkers} = this.state;
+    const {workersInfo, kilnInfo, user, offlineWorkers,ngos} = this.state;
    
-    localStorage.setItem('app-data', JSON.stringify({workersInfo, kilnInfo, user, offlineWorkers}));
+    localStorage.setItem('app-data', JSON.stringify({workersInfo, kilnInfo, user, offlineWorkers,ngos}));
     
   }
 
@@ -421,12 +426,12 @@ CsvKilnDataFunc = () => {
       return navigator.onLine && this.state.user && this.state.user.is_superuser;
   };
 
-  OpenModal = (id) => {
-          let modaldata =this.state.workersInfo.filter(worker=>{
-            return worker.id === id
-          })
-        
-          this.setState({ModalStatus:true,ModalData:modaldata},()=>this.sendModalData())
+  isSuperUserSummary = () => {
+    return  this.state.user && this.state.user.is_superuser;
+};
+
+  OpenModal = (worker) => {
+      this.setState({ModalStatus:true,ModalData:worker},()=>this.sendModalData())
   }
 
   sendModalData = ()=>{
@@ -439,7 +444,7 @@ CsvKilnDataFunc = () => {
 
 
   CloseModal = (id) => {
-    this.hookState({ModalStatus:false})
+    this.hookState({ModalData:null})
 
   }
 
@@ -475,7 +480,8 @@ CsvKilnDataFunc = () => {
           CsvWorkerDataFunc:this.CsvWorkerDataFunc,
           CsvKilnDataFunc:this.CsvKilnDataFunc,
           cancelPayment:this.cancelPayment,
-          sendModalData:this.sendModalData
+          sendModalData:this.sendModalData,
+          isSuperUserSummary:this.isSuperUserSummary
         }}
       >
         {this.props.children}

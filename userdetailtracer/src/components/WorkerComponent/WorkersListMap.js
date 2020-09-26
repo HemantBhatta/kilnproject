@@ -36,6 +36,21 @@ const WorkersListMap = ({ worker }) => {
       smooth: true,
     });
   };
+
+  const cancelBtn =  navigator.onLine ? 
+            (
+              <span>
+            <Button
+              onClick={() => cancelPayment(worker)}
+              variant="contained"
+              color="secondary"
+              className={classes.buttonMargin}
+            >
+              Cancel
+            </Button>
+          </span>
+            ) : null
+
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card className={classes.root}>
@@ -133,7 +148,7 @@ const WorkersListMap = ({ worker }) => {
   user.ngo ?
           <span>
             <Button
-              onClick={() => OpenModal(worker.id)}
+              onClick={() => OpenModal(worker)}
               variant="contained"
               color="secondary"
               className={classes.buttonMargin}
@@ -141,17 +156,8 @@ const WorkersListMap = ({ worker }) => {
               Payment
             </Button>
           </span>
-             : 
-             <span>
-             <Button
-               onClick={() => cancelPayment(worker)}
-               variant="contained"
-               color="secondary"
-               className={classes.buttonMargin}
-             >
-               Cancel
-             </Button>
-           </span>
+             :
+             cancelBtn
 } 
         </CardContent>
       </Card>

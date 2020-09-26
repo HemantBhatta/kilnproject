@@ -47,7 +47,7 @@ const WorkersList = () => {
   const classes = useStyles();
   const isAlreadyAuthenticated = isAuthenticated();
 
-  const { sortedWorkersInfo, isSuperUser, workersInfo,csvData,CsvWorkerDataFunc} = useContext(myContext);
+  const { sortedWorkersInfo, isSuperUserSummary, workersInfo,csvData,CsvWorkerDataFunc} = useContext(myContext);
  const workerscsvHeaders =  ['Id','First Name', 'Last Name','Naike Name','NaikePhone','Priority','Ngo','Duplicate','Gender','Age','Country','District','Municipality','Village','Ward','Phone','Category','Kiln Id','Children','Kiln','Kiln Address','Amount Paid','Amount Payer'] 
   const [currentPage, setCurrentPage] = useState(1);
   const [workersPerPage] = useState(9);
@@ -77,7 +77,7 @@ const WorkersList = () => {
     
       {isAlreadyAuthenticated ? (
         <div>
-          {isSuperUser() ? (
+          {isSuperUserSummary() ? (
             <span className={classes.addIcon}>
               <Link to="/inputnewworker" className={classes.AddIconLink}>
                 <AddCircleIcon color="primary" fontSize="large" />

@@ -40,7 +40,7 @@ const WorkerFilter = () => {
 
  const uniqueFilter = (arr,grp) => {
 
-  return [...new Set(arr.map(e => e[grp])),'All'];
+  return ['All',...new Set(arr.map(e => e[grp]))];
 
 }
 

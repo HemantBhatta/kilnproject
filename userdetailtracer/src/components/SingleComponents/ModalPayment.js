@@ -7,16 +7,16 @@ import { v4 as uuidv4 } from 'uuid';
 
 const amounts  = {
   Fireman:5650,
-  Molder:7750,
+  Moulder:7750,
   Transporter:7400,
   Others:5150
 };
 
 const dAmount = (ModalData) => {
-  if( ModalData.length ){
-    const amount = ModalData[0].extra && ModalData[0].extra.payment ?
-       ModalData[0].extra.payment.amount : 
-       amounts[ModalData[0].category];
+  if( ModalData ){
+    const amount = ModalData.extra && ModalData.extra.payment ?
+       ModalData.extra.payment.amount : 
+       amounts[ModalData.category];
       return amount;
   }
   return 0;
@@ -47,30 +47,33 @@ class ModalPayment extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const worker = this.context.ModalData[0];
+    const worker = this.context.ModalData;
     if (!worker.extra){
       worker.extra = {}
     }
     worker.extra.payment = {...this.state.paymentdat,amountpayer:this.context.user,timeofpay:new Date().toLocaleString(),pay_id:uuidv4()}
-    const ModalDataId = this.context.ModalData.map(data=>{
-      return data.id
-    })
+    const ModalDataId = this.context.ModalData.id
 
 
     if(navigator.onLine ){
 
       Axiosapi({
         method:'PUT',
-        url:`workers/${ModalDataId[0]}`,
+        url:`workers/${ModalDataId}`,
         data:worker
       })
       .then(res=>{
         if (res.status === 200 && res.statusText === "OK") {
             this.setUpdatedPayment(worker);
         }
+        this.context.CloseModal()
+
         })
         .catch((err) => {
           this.setState({})
+          this.context.CloseModal()
+
+
       });
 
     } else {
@@ -78,7 +81,10 @@ class ModalPayment extends React.Component {
       this.context.WorkerEditPaymentFunc(
         worker
      );
+     this.context.CloseModal()
+
    }
+
 
 
   };
@@ -98,7 +104,7 @@ class ModalPayment extends React.Component {
     const { CloseModal, ModalStatus, ModalData, user,sendModalData } = this.context;
    
     return (
-      <div className={ModalStatus ? "modalOverlay" : "hideModal"}>
+      <div className="modalOverlay">
         <Container maxWidth="sm" component="main">
           <div className="modalInner">
             <CloseIcon
@@ -127,7 +133,6 @@ class ModalPayment extends React.Component {
               type="submit"
               variant="contained"
               color="primary"
-            onClick={() => {CloseModal()}}
             >
               Save Payment
             </Button>
