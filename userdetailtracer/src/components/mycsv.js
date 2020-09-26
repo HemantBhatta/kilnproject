@@ -40,7 +40,7 @@ const Mycsv = () => {
         <CSVLink  filename={"kiln-workers.csv"} data={csvData} headers={headers}>
           <Button variant="contained" color="secondary">
 
-              ExportCSV
+              Export CSV
           </Button>
       </CSVLink>
         </div>

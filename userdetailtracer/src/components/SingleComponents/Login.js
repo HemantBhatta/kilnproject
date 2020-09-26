@@ -74,7 +74,6 @@ class Login extends React.Component {
         data:this.state
       })
       .then(res=>{
-      
         localStorage.setItem("item", JSON.stringify(res.data.token));
       
      

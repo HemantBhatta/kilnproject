@@ -95,8 +95,6 @@ state={
               this.setState({alertInfo:{type: 'error', msg: 'Something went wrong. Please try again.'}})
           })
     
-
-       
       };
 
   
@@ -104,7 +102,6 @@ state={
 
     static contextType = myContext;
     render() {
-       
      const {kilnInfo} =  this.context
      let kilnOption = kilnInfo.map((kiln)=>{
         return   <MenuItem value={kiln.id}>{kiln.name}</MenuItem>

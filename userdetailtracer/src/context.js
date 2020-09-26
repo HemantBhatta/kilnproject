@@ -88,23 +88,34 @@ class ContextProvider extends Component {
   fetchAllData = () => {
     if( localStorage.getItem('app-data')){
       const values = JSON.parse(localStorage.getItem('app-data'))
-      this.setState({
-        workersInfo:values.workersInfo,
-        sortedWorkersInfo:values.workersInfo,
-       
-        kilnInfo:values.kilnInfo,
-        sortedkilnInfo:values.kilnInfo,
-        offlineWorkers: values.offlineWorkers,
-        user:values.user,
-        ngos:values.ngos,
-        InitialDataStatus:true
-      },()=>{
-        if( navigator.onLine && Object.keys(values.offlineWorkers).length ){
-          this.syncPayments()
-          //console.log( Object.values(values.offlineWorkers) );
-          //this.hookState({offlineWorkers: {}});
-        }
-      });
+
+      if(values.workersInfo.length && values.kilnInfo.length && values.user && values.ngos.length){
+
+        this.setState({
+          workersInfo:values.workersInfo,
+          sortedWorkersInfo:values.workersInfo,
+         
+          kilnInfo:values.kilnInfo,
+          sortedkilnInfo:values.kilnInfo,
+          offlineWorkers: values.offlineWorkers,
+          user:values.user,
+          ngos:values.ngos,
+          InitialDataStatus:true
+        },()=>{
+          if( navigator.onLine && Object.keys(values.offlineWorkers).length ){
+            this.syncPayments()
+           
+          }
+        });
+
+      }
+      else {
+        localStorage.removeItem('app-data')
+        window.location.href = ''
+      }
+
+
+
 
      
     }  else {
@@ -126,7 +137,6 @@ class ContextProvider extends Component {
     this.setState(state, cb);
     const {workersInfo, kilnInfo, user, offlineWorkers,ngos} = this.state;
   
-   
     localStorage.setItem('app-data', JSON.stringify({workersInfo, kilnInfo, user, offlineWorkers,ngos}));
     
   }
@@ -266,8 +276,6 @@ class ContextProvider extends Component {
     else {
       tempWorkersInfo = tempWorkersInfo;
     }
-
-    
     this.hookState({ sortedWorkersInfo: tempWorkersInfo },()=>{this.CsvWorkerDataFunc()});
   };
 
@@ -432,20 +440,16 @@ CsvKilnDataFunc = () => {
 };
 
   OpenModal = (worker) => {
-      this.setState({ModalStatus:true,ModalData:worker},()=>this.sendModalData())
+      this.setState({ModalStatus:true,ModalData:worker})
   }
 
-  sendModalData = ()=>{
-    const data = this.state.ModalData
-    return data
-
-  }
 
 
 
 
   CloseModal = (id) => {
     this.hookState({ModalData:null})
+    this.filterAllOptions()
 
   }
 
@@ -458,6 +462,8 @@ CsvKilnDataFunc = () => {
 
 
   render() {
+    console.log(this.state.sortedWorkersInfo)
+
     return (
       <myContext.Provider
         value={{
@@ -481,7 +487,7 @@ CsvKilnDataFunc = () => {
           CsvWorkerDataFunc:this.CsvWorkerDataFunc,
           CsvKilnDataFunc:this.CsvKilnDataFunc,
           cancelPayment:this.cancelPayment,
-          sendModalData:this.sendModalData,
+          filterAllOptions:this.filterAllOptions,
           isSuperUserSummary:this.isSuperUserSummary
         }}
       >

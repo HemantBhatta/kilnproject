@@ -6,6 +6,8 @@ import {Card,Typography} from '@material-ui/core';
 import Spinner from './Spinner'
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import {Redirect,Link} from 'react-router-dom'
+import SnackBar from './SnackBar'
+
 
 
 
@@ -45,6 +47,9 @@ class NgosList extends Component {
 
         return (
             <div className='ngolist-Section'>
+                {
+                  navigator.onLine ? '' :  <SnackBar/>
+                }
                {
                    isSuperUserSummary() ? 
                    <div className='ngosummaryLink'>

@@ -8,6 +8,7 @@ import WorkersPaginate from "../SingleComponents/WorkersPaginate";
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import Spinner from '../SingleComponents/Spinner'
 import Mycsv from '../mycsv'
+import SnackBar from '../SingleComponents/SnackBar'
 
 
 import { Link, Redirect } from "react-router-dom";
@@ -74,7 +75,9 @@ const WorkersList = () => {
 
   return (
     <div className='workerList-Section'>
-    
+   {
+     navigator.onLine ? '' :  <SnackBar/>
+   }
       {isAlreadyAuthenticated ? (
         <div>
           {isSuperUserSummary() ? (

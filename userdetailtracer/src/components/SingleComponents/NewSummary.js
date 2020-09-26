@@ -4,6 +4,7 @@ import Title from "./Title";
 import { myContext } from "../../context";
 import { Redirect } from "react-router-dom";
 
+
 import {
   Button,
   Grid,
@@ -120,6 +121,7 @@ class NewSummary extends Component {
   render() {
     return (
       <div>
+      
         {this.isAlreadyAuthenticated ? (
           <div className="newSummary">
             <Title title="Summary" />

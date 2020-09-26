@@ -8,7 +8,7 @@ import WorkersPaginate from '../SingleComponents/WorkersPaginate'
 import Spinner from '../SingleComponents/Spinner'
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import {Link, Redirect} from 'react-router-dom'
-
+import SnackBar from '../SingleComponents/SnackBar'
 import Title from '../SingleComponents/Title'
 
 
@@ -71,7 +71,9 @@ const KilnList = () =>  {
 
     return (
       <div  className='kilnList-Section'>
-
+    {
+     navigator.onLine ? '' :  <SnackBar/>
+   }
      {isAlreadyAuthenticated ? 
       <div>
 { isSuperUserSummary() ? 
