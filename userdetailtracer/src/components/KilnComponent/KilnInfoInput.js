@@ -16,7 +16,7 @@ const KilnInfoInput = () => {
     address: "",
   };
 
-  const { KilnNewStatefunc, kilnInfo ,alertData,AlertFunc} = useContext(myContext);
+  const { KilnNewStatefunc, kilnInfo ,alertData,AlertFunc,isSuperUser} = useContext(myContext);
   const [kilnInfoValue, setkilnInfoValue] = useState(kilnInfo);
   const [valuea, setValue] = useState(kiln);
   const [alertInfo, setalertInfo] = useState(alertData);
@@ -69,7 +69,7 @@ const KilnInfoInput = () => {
 
   return (
     <div>
-      {isAlreadyAuthenticated ? (
+      {isAlreadyAuthenticated && isSuperUser() ? (
         <div>
           <KilnInfoInputComp
             InputHandler={InputHandler}

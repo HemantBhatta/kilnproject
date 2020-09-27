@@ -122,7 +122,7 @@ class NewSummary extends Component {
     return (
       <div>
       
-        {this.isAlreadyAuthenticated ? (
+        {this.isAlreadyAuthenticated && this.context.isSuperUser()? (
           <div className="newSummary">
             <Title title="Summary" />
             <div className='mysum'>

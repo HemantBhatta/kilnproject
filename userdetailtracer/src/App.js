@@ -83,11 +83,11 @@ function App() {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/logout" component={Logout} />
-          <Route exact path="/kiln" component={KilnInfoInput} />
+          <Route exact path="/kiln" component={KilnInfoInput} /> 
           <Route exact path="/workers" component={WorkersList} />
           <Route exact path="/ngos" component={NgosList} />
           <Route exact path="/kilnlist" component={KilnList} />
-          <Route exact path="/csv" component={Mycsv} />
+          {/* <Route exact path="/csv" component={Mycsv} /> */}
           <Route exact path="/summary" component={NewSummary} />
           {super_user_routes}
           <Route component={Error} />

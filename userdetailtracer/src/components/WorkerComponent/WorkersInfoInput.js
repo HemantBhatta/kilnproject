@@ -18,6 +18,7 @@ const WorkersInfoInput = () => {
     kilnInfo,
     alertData,
     AlertFunc,
+    isSuperUser
   } = useContext(myContext);
   const isAlreadyAuthenticated = isAuthenticated();
 
@@ -116,7 +117,7 @@ const WorkersInfoInput = () => {
 
   return (
     <div className='workerInputSection'>
-      {isAlreadyAuthenticated ? (
+      {isAlreadyAuthenticated && isSuperUser() ? (
         <div>
           <WorkersInfoInputComp
             kilnlist={kilnInfo}
