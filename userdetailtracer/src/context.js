@@ -104,7 +104,7 @@ class ContextProvider extends Component {
         values.user &&
         values.ngos.length
       ) {
-        if ((new Date().getTime() - values.pageRefreshed) / 1000 < 60) {
+        if ((new Date().getTime() - values.pageRefreshed) / 1000 < 1800) {
 
           this.setState(
             {
