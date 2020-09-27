@@ -46,7 +46,7 @@ const WorkersListMap = ({ worker }) => {
               color="secondary"
               className={classes.buttonMargin}
             >
-              Cancel
+              Cancel Payment
             </Button>
           </span>
             ) : null
@@ -151,9 +151,10 @@ const WorkersListMap = ({ worker }) => {
               onClick={() => OpenModal(worker)}
               variant="contained"
               color="secondary"
+              disabled = {worker.extra && worker.extra.payment}
               className={classes.buttonMargin}
             >
-              Payment
+             {worker.extra && worker.extra.payment ? 'Paid' : 'Pay' } 
             </Button>
           </span>
              :

@@ -36,7 +36,7 @@ import { myContext } from "./context";
     };
 
 function App() {
-  const { alertData, isSuperUser, AlertFunc, user, ModalData,syncing } = useContext(myContext);
+  const { alertData, isSuperUser, AlertFunc, user, ModalData,syncing,isOnline } = useContext(myContext);
   const isAlreadyAuthenticated = isAuthenticated();
 
   if(isAlreadyAuthenticated){
@@ -82,7 +82,9 @@ function App() {
           <Route exact path="/inputnewworker" component={WorkersInfoInput} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/logout" component={Logout} />
+          {
+            isOnline() ? <Route exact path="/logout" component={Logout} /> : null
+          }
           <Route exact path="/kiln" component={KilnInfoInput} /> 
           <Route exact path="/workers" component={WorkersList} />
           <Route exact path="/ngos" component={NgosList} />

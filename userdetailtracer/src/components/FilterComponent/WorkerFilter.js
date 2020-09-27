@@ -34,7 +34,9 @@ const WorkerFilter = () => {
     searchbymunicipality,
     searchbyworkercategory,
     searchbynaike_f_name,
-    searchbypaidstatus
+    searchbypaidstatus,
+    ngos,
+    searchbyngo
   
   } = useContext(myContext);
 
@@ -54,13 +56,17 @@ const WorkerFilter = () => {
     });
     }
 
-let uniquecategory = uniqueFilter(workersInfo,'category')
+let uniquecategory = uniqueFilter(workersInfo,'category').sort();
 let categoryOption = selectOptionFunc(uniquecategory,'category')
 
-let uniquedistrict = uniqueFilter(workersInfo,'district')
+
+let uniquengos = uniqueFilter(ngos,'name').sort();
+let ngosOption = selectOptionFunc(uniquengos,'name')
+
+let uniquedistrict = uniqueFilter(workersInfo,'district').sort();
 let districtOption = selectOptionFunc(uniquedistrict,'district')
 
-let uniquemunicipality = uniqueFilter(workersInfo,'municipality')
+let uniquemunicipality = uniqueFilter(workersInfo,'municipality').sort();
 let municipalityOption = selectOptionFunc(uniquemunicipality,'municipality')
 
   let kilnlist = workersInfo.map((worker) => {
@@ -236,6 +242,24 @@ let municipalityOption = selectOptionFunc(uniquemunicipality,'municipality')
                 <MenuItem value="All">All</MenuItem>
                 <MenuItem value="paid">Paid</MenuItem>
                 <MenuItem value="unpaid">Unpaid</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6} sm={4}>
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel id="demo-simple-select-outlined-label">
+                Ngo
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                name="searchbyngo"
+                value={searchbyngo}
+                onChange={ChangeOptionFilter}
+                label="Paid Status"
+              >
+               {ngosOption}
               </Select>
             </FormControl>
           </Grid>
