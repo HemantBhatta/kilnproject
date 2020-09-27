@@ -571,3 +571,16 @@ font-family: 'Roboto', sans-serif;
   color: white;
   font-family: sans-serif;
 }
+
+
+
+.offlineSummaryLink
+{
+  display: flex;
+  justify-content: end;
+}
+
+.offlineSummaryLink a, .csvBtn a, .navRight a
+{
+  text-decoration: none!important;
+}

@@ -35,7 +35,7 @@ const Mycsv = () => {
   ];
 
     return (
-        <div>
+        <div className='csvBtn'>
         
         <CSVLink  filename={"kiln-workers.csv"} data={csvData} headers={headers}>
           <Button variant="contained" color="secondary">
