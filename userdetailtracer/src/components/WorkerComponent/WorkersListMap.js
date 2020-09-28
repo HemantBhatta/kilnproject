@@ -44,6 +44,16 @@ const WorkersListMap = ({ worker }) => {
     }
   }
 
+  const confirmDelete = (worker) => {
+    if(window.confirm('Are you sure you want to delete the worker?')){
+
+    
+
+      deleteWorker(worker.id);
+      scrollToElement("Home");
+    }
+  }
+
   const cancelBtn = (worker)=> worker.extra && worker.extra.payment && navigator.onLine ? 
             (
               <span>
@@ -139,8 +149,8 @@ const WorkersListMap = ({ worker }) => {
                 </Link>
                 <Button
                   onClick={() => {
-                    deleteWorker(worker.id);
-                    scrollToElement("Home");
+                    confirmDelete(worker)
+                  
                   }}
                   className={classes.buttonMargin}
                   variant="contained"
