@@ -38,7 +38,7 @@ class ContextProvider extends Component {
     csvKilnData: [],
     ngos: [],
     syncing: false,
-    searchbyngo:'',
+    searchbyngo:'All',
     pageRefreshed:new Date().getTime(),
     
   };
