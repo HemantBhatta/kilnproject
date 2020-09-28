@@ -37,11 +37,18 @@ const WorkersListMap = ({ worker }) => {
     });
   };
 
-  const cancelBtn =  navigator.onLine ? 
+ const confirmCancel = (worker) => {
+    if(window.confirm('Are you sure you want to cancel the payment? ?')){
+
+      cancelPayment(worker)
+    }
+  }
+
+  const cancelBtn = (worker)=> worker.extra && worker.extra.payment && navigator.onLine ? 
             (
               <span>
             <Button
-              onClick={() => cancelPayment(worker)}
+              onClick={() => {confirmCancel(worker)}}
               variant="contained"
               color="secondary"
               className={classes.buttonMargin}
@@ -158,7 +165,7 @@ const WorkersListMap = ({ worker }) => {
             </Button>
           </span>
              :
-             cancelBtn
+             cancelBtn(worker)
 } 
         </CardContent>
       </Card>

@@ -133,6 +133,7 @@ class ModalPayment extends React.Component {
               type="submit"
               variant="contained"
               color="primary"
+             
             >
               Save Payment
             </Button>

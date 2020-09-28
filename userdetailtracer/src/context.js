@@ -38,9 +38,8 @@ class ContextProvider extends Component {
     csvKilnData: [],
     ngos: [],
     syncing: false,
-    searchbyngo:'All',
-    pageRefreshed:new Date().getTime(),
-    
+    searchbyngo: "All",
+    pageRefreshed: new Date().getTime(),
   };
 
   componentDidMount() {
@@ -48,13 +47,13 @@ class ContextProvider extends Component {
   }
 
   isOnline = () => {
-    return navigator.onLine
-  }
+    return navigator.onLine;
+  };
 
-  refreshCache = () =>{
-    localStorage.removeItem('app-data')
-    window.location.href = ''
-  }
+  refreshCache = () => {
+    localStorage.removeItem("app-data");
+    window.location.href = "";
+  };
 
   syncPayments = () => {
     this.setState({ syncing: true });
@@ -94,6 +93,42 @@ class ContextProvider extends Component {
 
   //********Data Fetching**********/
 
+  fetchFreshData = () => {
+    Promise.all([
+      Axiosapi.get("workers"),
+      Axiosapi.get("kiln"),
+      Axiosapi.get("user"),
+      Axiosapi.get("ngos"),
+    ])
+      .then(([workers, kilns, user, ngos]) => {
+        this.hookState({
+          workersInfo: workers.data,
+          sortedWorkersInfo: workers.data,
+          kilnInfo: kilns.data,
+          sortedkilnInfo: kilns.data,
+          user: user.data,
+          InitialDataStatus: true,
+          ngos: ngos.data,
+        });
+      })
+      .catch((er) => console.log(er));
+  };
+
+  setFreshDataToState = (values, cb=null) => {
+    this.setState({
+      workersInfo: values.workersInfo,
+      sortedWorkersInfo: values.workersInfo,
+
+      kilnInfo: values.kilnInfo,
+      sortedkilnInfo: values.kilnInfo,
+      offlineWorkers: values.offlineWorkers,
+      user: values.user,
+      ngos: values.ngos,
+      InitialDataStatus: true,
+    }, cb);
+
+  }
+
   fetchAllData = () => {
     if (localStorage.getItem("app-data")) {
       const values = JSON.parse(localStorage.getItem("app-data"));
@@ -104,79 +139,39 @@ class ContextProvider extends Component {
         values.user &&
         values.ngos.length
       ) {
-        if ((new Date().getTime() - values.pageRefreshed) / 1000 < 1800) {
-
-          this.setState(
-            {
-              workersInfo: values.workersInfo,
-              sortedWorkersInfo: values.workersInfo,
-
-              kilnInfo: values.kilnInfo,
-              sortedkilnInfo: values.kilnInfo,
-              offlineWorkers: values.offlineWorkers,
-              user: values.user,
-              ngos: values.ngos,
-              InitialDataStatus: true,
-            },
-            () => {
-              if (
-                navigator.onLine &&
-                Object.keys(values.offlineWorkers).length
-              ) {
-                this.syncPayments();
-              }
-            }
-          );
-        } else {
-         
-          Promise.all([
-            Axiosapi.get("workers"),
-            Axiosapi.get("kiln"),
-            Axiosapi.get("user"),
-            Axiosapi.get("ngos"),
-          ])
-            .then(([workers, kilns, user, ngos]) => {
-              this.hookState({
-                workersInfo: workers.data,
-                sortedWorkersInfo: workers.data,
-                kilnInfo: kilns.data,
-                sortedkilnInfo: kilns.data,
-                user: user.data,
-                InitialDataStatus: true,
-                ngos: ngos.data,
-              });
-            })
-            .catch((er) => console.log(er));
+        if(this.isOnline() && Object.keys(values.offlineWorkers).length )
+        {
+          this.setFreshDataToState(values,this.syncPayments )
+          
         }
+        else{
+        if (
+          this.isOnline() && (new Date().getTime() - values.pageRefreshed) / 1000 > 1800
+        ) {
+          this.fetchFreshData();
+        } else {
+          this.setFreshDataToState(values)
+        }
+      }
       } else {
         localStorage.removeItem("app-data");
         window.location.href = "";
       }
     } else {
-      Promise.all([
-        Axiosapi.get("workers"),
-        Axiosapi.get("kiln"),
-        Axiosapi.get("user"),
-        Axiosapi.get("ngos"),
-      ])
-        .then(([workers, kilns, user, ngos]) => {
-          this.hookState({
-            workersInfo: workers.data,
-            sortedWorkersInfo: workers.data,
-            kilnInfo: kilns.data,
-            sortedkilnInfo: kilns.data,
-            user: user.data,
-            InitialDataStatus: true,
-            ngos: ngos.data,
-          });
-        })
-        .catch((er) => console.log(er));
+      this.fetchFreshData();
     }
   };
 
   hookState = (state, cb) => {
     this.setState(state, cb);
-    const { workersInfo, kilnInfo, user, offlineWorkers, ngos,pageRefreshed } = this.state;
+    const {
+      workersInfo,
+      kilnInfo,
+      user,
+      offlineWorkers,
+      ngos,
+      pageRefreshed,
+    } = this.state;
 
     localStorage.setItem(
       "app-data",
@@ -240,7 +235,7 @@ class ContextProvider extends Component {
       searchbynaike_f_name,
       searchbycode,
       searchbypaidstatus,
-      searchbyngo
+      searchbyngo,
     } = this.state;
     let tempWorkersInfo = [...workersInfo];
     if (searchbyworkername !== "") {
@@ -321,17 +316,18 @@ class ContextProvider extends Component {
       tempWorkersInfo = tempWorkersInfo;
     }
 
-
-
     if (searchbyngo !== "All") {
       const search = searchbyngo.toLowerCase();
       tempWorkersInfo = tempWorkersInfo.filter((worker) => {
-        return worker.extra && worker.extra.payment && 
-        worker.extra.payment.amountpayer.ngo.name.toLowerCase().includes(search);
+        return (
+          worker.extra &&
+          worker.extra.payment &&
+          worker.extra.payment.amountpayer.ngo.name
+            .toLowerCase()
+            .includes(search)
+        );
       });
     }
-
-
 
     this.hookState({ sortedWorkersInfo: tempWorkersInfo }, () => {
       this.CsvWorkerDataFunc();
@@ -514,7 +510,6 @@ class ContextProvider extends Component {
   };
 
   render() {
-
     return (
       <myContext.Provider
         value={{
@@ -540,8 +535,8 @@ class ContextProvider extends Component {
           cancelPayment: this.cancelPayment,
           filterAllOptions: this.filterAllOptions,
           isSuperUserSummary: this.isSuperUserSummary,
-          isOnline:this.isOnline,
-          refreshCache:this.refreshCache
+          isOnline: this.isOnline,
+          refreshCache: this.refreshCache,
         }}
       >
         {this.props.children}
