@@ -36,6 +36,14 @@ const KilnListMap = ({ kiln }) => {
     });
   };
 
+
+  const confirmDelete = (kiln) => {
+    if(window.confirm('Are you sure you want to delete the kiln?')){
+      deleteKiln(kiln.id);
+      scrollToElement("Home");
+    }
+  }
+
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card className={classes.root}>
@@ -47,8 +55,7 @@ const KilnListMap = ({ kiln }) => {
           {isSuperUser() ? (
             <Button
               onClick={() => {
-                deleteKiln(kiln.id);
-                scrollToElement("Home");
+                confirmDelete(kiln)
               }}
               className={classes.posBtn}
               variant="contained"

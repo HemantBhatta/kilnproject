@@ -146,7 +146,7 @@ class ContextProvider extends Component {
         }
         else{
         if (
-          this.isOnline() && (new Date().getTime() - values.pageRefreshed) / 1000 > 1800
+          this.isOnline() && (new Date().getTime() - values.pageRefreshed) / 1000 > 30
         ) {
           this.fetchFreshData();
         } else {

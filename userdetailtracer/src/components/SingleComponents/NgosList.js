@@ -35,9 +35,9 @@ class NgosList extends Component {
         const {workersInfo} = this.context
        
         let ngolist = ngos.map(ngo=>{
-        return <Card key={ngo.uuid} style={{'margin-bottom':'.5em', 'padding': '1em'}}>
+        return <Card key={ngo.uuid} style={{'marginBottom':'.5em', 'padding': '1em'}}>
              <Typography key={ngo.uuid}>{ngo.name}</Typography>
-             <div style={{'margin-top': '.5em'}}>
+             <div style={{'marginTop': '.5em'}}>
                 <a href={`#register?ngo=${ngo.uuid}`} className='registerLink'>
                 Registration link
                 </a>

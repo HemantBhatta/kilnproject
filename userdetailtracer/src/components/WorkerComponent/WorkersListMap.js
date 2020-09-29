@@ -46,9 +46,6 @@ const WorkersListMap = ({ worker }) => {
 
   const confirmDelete = (worker) => {
     if(window.confirm('Are you sure you want to delete the worker?')){
-
-    
-
       deleteWorker(worker.id);
       scrollToElement("Home");
     }
