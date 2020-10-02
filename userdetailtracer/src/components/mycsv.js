@@ -7,6 +7,7 @@ import { CSVLink } from "react-csv";
 const Mycsv = () => {
   
   const { csvData,CsvWorkerDataFunc} = useContext(myContext);
+  console.log(csvData)
   useEffect(()=>{
     CsvWorkerDataFunc()
   },[])
@@ -32,6 +33,8 @@ const Mycsv = () => {
     { label: "Kiln Address", key: "kilnaddress" },
     { label: "Amount Paid", key: "amountpaid" },
     { label: "Amount Payer", key: "amountpayer" },
+    { label: "Amount Paid Date", key: "amountpaiddate" },
+    { label: "Code", key: "code" },
   ];
 
     return (

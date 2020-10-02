@@ -1,6 +1,7 @@
 import { CssBaseline } from "@material-ui/core";
 import React, { Component } from "react";
 import Axiosapi from "./components/SingleComponents/Axiosapi";
+import {register} from './serviceWorker'
 const myContext = React.createContext();
 
 class ContextProvider extends Component {
@@ -44,6 +45,12 @@ class ContextProvider extends Component {
 
   componentDidMount() {
     this.fetchAllData();
+    
+
+  }
+
+  supportServiceWorker = () => {
+      return ('serviceWorker' in navigator)
   }
 
   isOnline = () => {
@@ -389,6 +396,7 @@ class ContextProvider extends Component {
       if (item.extra !== null) {
         item.amountpaid = item.extra.payment.amount;
         item.amountpayer = item.extra.payment.amountpayer.username;
+        item.amountpaiddate = item.extra.payment.timeofpay
       }
 
       if (item.children !== null) {
@@ -537,6 +545,7 @@ class ContextProvider extends Component {
           isSuperUserSummary: this.isSuperUserSummary,
           isOnline: this.isOnline,
           refreshCache: this.refreshCache,
+          supportServiceWorker:this.supportServiceWorker
         }}
       >
         {this.props.children}

@@ -6,10 +6,10 @@ function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
-const SnackBar = () => {
+const SnackBar = ({title,bg}) => {
     return (
         <Box mt={3}>
-                  <Alert severity="info">You are currently working on offline mode.</Alert>
+                  <Alert severity={bg}>{title}</Alert>
         </Box>
     )
 }

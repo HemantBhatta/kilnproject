@@ -1,15 +1,14 @@
 import React, { useState, useContext } from "react";
 import WorkersListMap from "./WorkersListMap";
-import { Grid, Typography, makeStyles,Box } from "@material-ui/core";
+import { Grid, Typography, makeStyles, Box } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import Title from "../SingleComponents/Title";
 import WorkerFilter from "../FilterComponent/WorkerFilter";
 import WorkersPaginate from "../SingleComponents/WorkersPaginate";
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import Spinner from '../SingleComponents/Spinner'
-import Mycsv from '../mycsv'
-import SnackBar from '../SingleComponents/SnackBar'
-
+import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+import Spinner from "../SingleComponents/Spinner";
+import Mycsv from "../mycsv";
+import SnackBar from "../SingleComponents/SnackBar";
 
 import { Link, Redirect } from "react-router-dom";
 import "../../App.css";
@@ -25,14 +24,13 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 15,
     width: "95%",
     margin: "auto",
-  
   },
   addIcon: {
     width: "95%",
     marginTop: 30,
     margin: "auto",
     display: "flex",
-    justifyContent:'space-between',
+    justifyContent: "space-between",
     alignItems: "center",
     color: "primary",
   },
@@ -48,13 +46,44 @@ const WorkersList = () => {
   const classes = useStyles();
   const isAlreadyAuthenticated = isAuthenticated();
 
-  const { sortedWorkersInfo, isSuperUserSummary,isSuperUser, workersInfo,csvData,CsvWorkerDataFunc} = useContext(myContext);
- const workerscsvHeaders =  ['Id','First Name', 'Last Name','Naike Name','NaikePhone','Priority','Ngo','Duplicate','Gender','Age','Country','District','Municipality','Village','Ward','Phone','Category','Kiln Id','Children','Kiln','Kiln Address','Amount Paid','Amount Payer'] 
+  const {
+    sortedWorkersInfo,
+    isSuperUserSummary,
+    isSuperUser,
+    workersInfo,
+    csvData,
+    CsvWorkerDataFunc,
+    supportServiceWorker,
+  } = useContext(myContext);
+  const workerscsvHeaders = [
+    "Id",
+    "First Name",
+    "Last Name",
+    "Naike Name",
+    "NaikePhone",
+    "Priority",
+    "Ngo",
+    "Duplicate",
+    "Gender",
+    "Age",
+    "Country",
+    "District",
+    "Municipality",
+    "Village",
+    "Ward",
+    "Phone",
+    "Category",
+    "Kiln Id",
+    "Children",
+    "Kiln",
+    "Kiln Address",
+    "Amount Paid",
+    "Amount Payer",
+  ];
   const [currentPage, setCurrentPage] = useState(1);
   const [workersPerPage] = useState(9);
-  if(!sortedWorkersInfo)
-  {
-    return <Spinner/>
+  if (!sortedWorkersInfo) {
+    return <Spinner />;
   }
 
   const indexOfLastWorker = currentPage * workersPerPage;
@@ -68,16 +97,28 @@ const WorkersList = () => {
     return <WorkersListMap worker={worker} key={worker.id} />;
   });
 
-
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   return (
-    <div className='workerList-Section'>
-   {
-     navigator.onLine ? '' :  <SnackBar/>
-   }
+    <div className="workerList-Section">
+      {
+          supportServiceWorker() && navigator.onLine ? (
+            ""
+          ) : supportServiceWorker() && !navigator.onLine ? (
+            <SnackBar
+              bg="info"
+              title="You are currently working on offline mode."
+            />
+          ) : !supportServiceWorker() ? (
+            <SnackBar
+              bg="warning"
+              title="Sorry,your browser doesn't support offline mode."
+            />
+          ) : null
+      }
+
       {isAlreadyAuthenticated ? (
         <div>
           {isSuperUser() ? (
@@ -94,40 +135,48 @@ const WorkersList = () => {
                 </Typography>
               </Link>
               <Link to="/summary" className={classes.AddIconLink}>
-              
                 <Typography
                   className="addnewWorker"
                   color="primary"
                   component="h1"
                   variant="h6"
                 >
-                 
                   Summary
                 </Typography>
                 <ArrowRightAltIcon color="primary" fontSize="large" />
               </Link>
             </span>
-          ) :  ( isSuperUserSummary() ?
-           <span className='offlineSummaryLink'>
+          ) : isSuperUserSummary() ? (
+            <span className="offlineSummaryLink">
               <Link to="/summary" className={classes.AddIconLink}>
-              
-              <Typography
-                className="addnewWorker"
-                color="primary"
-                component="h1"
-                variant="h6"
-              >
-               
-                Summary
-              </Typography>
-              <ArrowRightAltIcon color="primary" fontSize="large" />
-            </Link>
-           </span>
-          : '' )}
+                <Typography
+                  className="addnewWorker"
+                  color="primary"
+                  component="h1"
+                  variant="h6"
+                >
+                  Summary
+                </Typography>
+                <ArrowRightAltIcon color="primary" fontSize="large" />
+              </Link>
+            </span>
+          ) : (
+            ""
+          )}
           <Title title="Workers List" />
           <WorkerFilter />
           <Box>
-          <Typography variant='h5' className='SelectedWorkers'>Selected <strong className='sortedOutof'>{sortedWorkersInfo.length}</strong> out of <strong className='sortedOutoflength'>{workersInfo.length}</strong> workers</Typography>
+            <Typography variant="h5" className="SelectedWorkers">
+              Selected{" "}
+              <strong className="sortedOutof">
+                {sortedWorkersInfo.length}
+              </strong>{" "}
+              out of{" "}
+              <strong className="sortedOutoflength">
+                {workersInfo.length}
+              </strong>{" "}
+              workers
+            </Typography>
           </Box>
           <div className={classes.pos}>
             <Grid container spacing={2}>
@@ -135,19 +184,19 @@ const WorkersList = () => {
             </Grid>
           </div>
 
-         <div className='CsvBtnSec'>
+          <div className="CsvBtnSec">
             <WorkersPaginate
-                itemsPerPage={workersPerPage}
-                totalItems={sortedWorkersInfo.length}
-                paginate={paginate}
-                csvData = {csvData}
-                csvFunc = {CsvWorkerDataFunc}
-                csvheader = {workerscsvHeaders}
-              />
-             <div className='csvbtn'>
-             <Mycsv/>
-             </div>
-         </div>
+              itemsPerPage={workersPerPage}
+              totalItems={sortedWorkersInfo.length}
+              paginate={paginate}
+              csvData={csvData}
+              csvFunc={CsvWorkerDataFunc}
+              csvheader={workerscsvHeaders}
+            />
+            <div className="csvbtn">
+              <Mycsv />
+            </div>
+          </div>
         </div>
       ) : (
         <Redirect to={{ pathname: "/login" }} />
