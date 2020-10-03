@@ -21,3 +21,9 @@ ENV/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Text backup files
+*.bak
+
+# Database
+*.sqlite3
