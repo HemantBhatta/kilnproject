@@ -25,7 +25,7 @@ SECRET_KEY = '=v_#_05&um%em%k2593sr!mxxn1#$1w7vpv6*4g3_@fogp*nqb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['kilnapps.herokuapp.com','kilnappss.herokuapp.com','localhost','127.0.0.1']
+ALLOWED_HOSTS = ['kilnapps.herokuapp.com','localhost','127.0.0.1']
 
 
 # Application definition
@@ -126,7 +126,7 @@ DATABASES = {
 #         'NAME': 'postgres',
 #         'USER':'postgres',
 #         'PASSWORD':'postgres12',
-#         'HOST':'database-1.cxrzwrdwqbzl.us-east-1.rds.amazonaws.com',
+#         'HOST':'localhost',
 #         'PORT':'5432'
 #     }
 # }
@@ -181,9 +181,9 @@ LOGIN_REDIRECT_URL = '/api/workers'
 
 
 # Heroku: Update database configuration from $DATABASE_URL.
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+# import dj_database_url
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(db_from_env)
 
 
 
