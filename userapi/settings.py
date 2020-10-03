@@ -120,6 +120,17 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER':'postgres',
+#         'PASSWORD':'postgres12',
+#         'HOST':'database-1.cxrzwrdwqbzl.us-east-1.rds.amazonaws.com',
+#         'PORT':'5432'
+#     }
+# }
+
 
 
 # Password validation
@@ -167,3 +178,14 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_REDIRECT_URL = '/api/workers'
+
+
+
+
+# Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
