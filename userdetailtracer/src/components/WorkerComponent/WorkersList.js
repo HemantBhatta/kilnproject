@@ -103,6 +103,8 @@ const WorkersList = () => {
 
   return (
     <div className="workerList-Section">
+
+      this is worker
       {
           supportServiceWorker() && navigator.onLine ? (
             ""
