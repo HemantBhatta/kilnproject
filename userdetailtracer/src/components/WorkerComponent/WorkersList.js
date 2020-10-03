@@ -104,7 +104,6 @@ const WorkersList = () => {
   return (
     <div className="workerList-Section">
 
-      this is worker
       {
           supportServiceWorker() && navigator.onLine ? (
             ""
@@ -123,7 +122,8 @@ const WorkersList = () => {
 
       {isAlreadyAuthenticated ? (
         <div>
-          {isSuperUser() ? (
+          {
+          isSuperUser() ? (
             <span className={classes.addIcon}>
               <Link to="/inputnewworker" className={classes.AddIconLink}>
                 <AddCircleIcon color="primary" fontSize="large" />
@@ -148,7 +148,8 @@ const WorkersList = () => {
                 <ArrowRightAltIcon color="primary" fontSize="large" />
               </Link>
             </span>
-          ) : isSuperUserSummary() ? (
+          ) : 
+          isSuperUserSummary() ? (
             <span className="offlineSummaryLink">
               <Link to="/summary" className={classes.AddIconLink}>
                 <Typography

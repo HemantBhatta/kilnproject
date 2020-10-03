@@ -44,7 +44,7 @@ const KilnList = () => {
   const classes = useStyles();
   const isAlreadyAuthenticated = isAuthenticated();
 
-  const { sortedkilnInfo, isSuperUserSummary,isSuperUser, kilnInfo } = useContext(
+  const { sortedkilnInfo, isSuperUserSummary,isSuperUser, kilnInfo,supportServiceWorker } = useContext(
     myContext
   );
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,7 +66,23 @@ const KilnList = () => {
 
   return (
     <div className="kilnList-Section">
-      {navigator.onLine ? "" : <SnackBar />}
+
+        {
+          supportServiceWorker() && navigator.onLine ? (
+            ""
+          ) : supportServiceWorker() && !navigator.onLine ? (
+            <SnackBar
+              bg="info"
+              title="You are currently working on offline mode."
+            />
+          ) : !supportServiceWorker() ? (
+            <SnackBar
+              bg="warning"
+              title="Sorry,your browser doesn't support offline mode."
+            />
+          ) : null
+      }
+
       {isAlreadyAuthenticated ? (
         <div>
           {isSuperUser() ? (

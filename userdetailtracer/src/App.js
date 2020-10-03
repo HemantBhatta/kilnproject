@@ -89,7 +89,6 @@ function App() {
           <Route exact path="/workers" component={WorkersList} />
           <Route exact path="/ngos" component={NgosList} />
           <Route exact path="/kilnlist" component={KilnList} />
-          {/* <Route exact path="/csv" component={Mycsv} /> */}
           <Route exact path="/summary" component={NewSummary} />
           {super_user_routes}
           <Route component={Error} />
