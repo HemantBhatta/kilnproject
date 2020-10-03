@@ -26,4 +26,4 @@ yarn-error.log*
 *.bak
 
 # Database
-../db.sqlite3/
+../db.sqlite3
