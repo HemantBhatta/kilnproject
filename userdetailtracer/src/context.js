@@ -248,7 +248,8 @@ class ContextProvider extends Component {
     if (searchbyworkername !== "") {
       const search = searchbyworkername.toLowerCase();
       tempWorkersInfo = tempWorkersInfo.filter((worker) => {
-        return worker.f_name.toLowerCase().includes(search);
+        const name = `${worker.f_name.toLowerCase()} ${worker.l_name.toLowerCase()}`;
+        return name.includes(search);
       });
     }
 
